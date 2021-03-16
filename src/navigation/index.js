@@ -1,33 +1,31 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import Home from '../screens/home'
-import Game from '../screens/game'
+import Auth from './auth'
+import App from './app'
 
-import Signin from '../screens/auth/Signin'
-import Signup from '../screens/auth/Signup'
+import Color from '../theme/colors'
 
-const Stack = createStackNavigator()
+const Drawer = createDrawerNavigator()
 
 const Navigation = () => {
-  const isUserSignin = true
-
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        {isUserSignin ? (
-          <>
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Game" component={Game} />
-          </>
-        ) : (
-          <>
-            <Stack.Screen name="Signin" component={Signin} />
-            <Stack.Screen name="Signup" component={Signup} />
-          </>
-        )}
-      </Stack.Navigator>
+      <Drawer.Navigator
+        initialRouteName="App"
+        drawerPosition="right"
+        drawerStyle={{
+          backgroundColor: Color.primary_bg
+        }}
+        drawerContentOptions={{
+          inactiveTintColor: Color.primary_font,
+          activeTintColor: Color.primary_font
+        }}
+      >
+        <Drawer.Screen name="Auth" component={Auth} />
+        <Drawer.Screen name="App" component={App} />
+      </Drawer.Navigator>
     </NavigationContainer>
   )
 }
