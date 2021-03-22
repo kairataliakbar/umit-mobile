@@ -1,16 +1,24 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { FlatGrid } from 'react-native-super-grid'
+import PropTypes from 'prop-types'
 
+import Container from '../../components/Container'
 import Card from '../../components/Card'
 import H3 from '../../components/Text/H3'
 import Bet from '../../components/Bet'
 
 import { bets } from '../../constants'
 
-const Home = () => {
+const Home = ({ navigation }) => {
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: ''
+    })
+  }, [navigation])
+
   return (
-    <View style={styles.screen}>
+    <Container customStyle={styles.screen}>
       <Card propStyles={styles.card}>
         <View style={styles.card_inner}>
           <H3>Выберите ставку</H3>
@@ -23,16 +31,14 @@ const Home = () => {
           />
         </View>
       </Card>
-    </View>
+    </Container>
   )
 }
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#2d2d2d'
+    justifyContent: 'center'
   },
   card: {
     width: '90%',
@@ -45,5 +51,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 })
+
+Home.propTypes = {
+  navigation: PropTypes.shape({
+    setOptions: PropTypes.func
+  })
+}
 
 export default Home

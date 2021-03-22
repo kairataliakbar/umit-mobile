@@ -23,8 +23,16 @@ const Navigation = () => {
           activeTintColor: Color.primary_font
         }}
       >
-        <Drawer.Screen name="Auth" component={Auth} />
-        <Drawer.Screen name="App" component={App} />
+        <Drawer.Screen
+          name="App"
+          component={App}
+          options={{ drawerLabel: 'Главная' }}
+        />
+        <Drawer.Screen
+          name="Auth"
+          component={Auth}
+          options={{ drawerLabel: 'Вход' }}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   )
