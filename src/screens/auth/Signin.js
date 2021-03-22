@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Container from '../../components/Container'
 import H1 from '../../components/Text/H1'
 import Input from '../../components/inputs/Input'
+import Button from '../../components/Button'
 
 const Signin = ({ navigation }) => {
   React.useLayoutEffect(() => {
@@ -27,6 +28,7 @@ const Signin = ({ navigation }) => {
           placeholder="Пароль"
           secureTextEntry
         />
+        <Button onPress={() => {}}>Войти</Button>
       </View>
     </Container>
   )
