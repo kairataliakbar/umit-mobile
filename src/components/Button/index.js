@@ -2,6 +2,8 @@ import React from 'react'
 import { TouchableOpacity, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 
+import Colors from '../../theme/colors'
+
 const Button = ({ label, children, onPress }) => {
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
@@ -16,16 +18,16 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 14,
     marginBottom: 30,
-    backgroundColor: 'transparent',
+    backgroundColor: Colors.secondary_bg,
     borderWidth: 2,
     borderRadius: 3,
-    borderColor: 'white',
+    borderColor: Colors.third_bg,
     alignItems: 'center',
     justifyContent: 'center'
   },
   label: {
     fontSize: 18,
-    color: 'white'
+    color: Colors.third_font
   }
 })
 

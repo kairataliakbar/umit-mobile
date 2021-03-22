@@ -16,9 +16,9 @@ const Stack = createStackNavigator()
 const AppNavigation = ({ navigation }) => {
   const navigationOptions = {
     headerStyle: {
-      backgroundColor: Colors.primary_bg
+      backgroundColor: Colors.secondary_bg
     },
-    headerTintColor: Colors.secondary_font,
+    headerTintColor: Colors.third_font,
     headerTitleStyle: {
       fontWeight: 'bold'
     },

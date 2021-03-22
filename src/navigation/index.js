@@ -16,7 +16,7 @@ const Navigation = () => {
         initialRouteName="App"
         drawerPosition="right"
         drawerStyle={{
-          backgroundColor: Color.primary_bg
+          backgroundColor: Color.secondary_bg
         }}
         drawerContentOptions={{
           inactiveTintColor: Color.primary_font,

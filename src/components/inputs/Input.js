@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 14,
     marginBottom: 30,
-    backgroundColor: 'white',
+    backgroundColor: Colors.third_bg,
     color: Colors.third_font,
     borderWidth: 2,
     borderRadius: 3,
