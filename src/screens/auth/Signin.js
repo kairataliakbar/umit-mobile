@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
+import { useForm, Controller } from 'react-hook-form'
 
 import Container from '../../components/Container'
 import H1 from '../../components/Text/H1'
@@ -8,27 +9,75 @@ import Input from '../../components/inputs/Input'
 import Button from '../../components/Button'
 
 const Signin = ({ navigation }) => {
+  const { control, handleSubmit, errors } = useForm()
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: ''
     })
   }, [navigation])
 
+  const onSubmit = (data) => {
+    console.log(data)
+  }
+
+  const validEmail = (error) => {
+    if (error) {
+      if (error.type === 'pattern') {
+        return 'Email введен некорректно'
+      }
+      return 'Это обязательное поле'
+    }
+    return null
+  }
+
+  const validPassword = (error) => {
+    if (error) {
+      if (error.type === 'minLength') {
+        return 'Длина должна быть больше 6'
+      }
+      return 'Это обязательное поле'
+    }
+    return null
+  }
+
   return (
     <Container customStyle={styles.screen}>
       <H1 propStyles={styles.title}>Вход</H1>
         
       <View style={styles.actions}>
-        <Input
-          placeholder="Почта"
-          autoCapitalize="none"
-          keyboardType="email-address"
+        <Controller
+          control={control}
+          render={({ onChange, value }) => (
+            <Input
+              placeholder="Почта"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              value={value}
+              onChangeText={(value) => onChange(value)}
+              error={validEmail(errors.email)}
+            />
+          )}
+          name="email"
+          defaultValue=""
+          rules={{ required: true, pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/ }}
         />
-        <Input
-          placeholder="Пароль"
-          secureTextEntry
+        <Controller
+          control={control}
+          render={({ onChange, value }) => (
+            <Input
+              placeholder="Пароль"
+              password
+              value={value}
+              onChangeText={(value) => onChange(value)}
+              error={validPassword(errors.password)}
+            />
+          )}
+          name="password"
+          defaultValue=""
+          rules={{ required: true, minLength: 6 }}
         />
-        <Button onPress={() => {}}>Войти</Button>
+        <Button onPress={handleSubmit(onSubmit)}>Войти</Button>
       </View>
     </Container>
   )
