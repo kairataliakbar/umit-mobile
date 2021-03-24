@@ -1,4 +1,4 @@
-export const bets = [
+export const BETS = [
   100,
   200,
   300,

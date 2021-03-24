@@ -1,6 +1,5 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { FlatGrid } from 'react-native-super-grid'
 import PropTypes from 'prop-types'
 
 import Container from '../../components/Container'
@@ -8,7 +7,7 @@ import Card from '../../components/Card'
 import H3 from '../../components/Text/H3'
 import Bet from '../../components/Bet'
 
-import { bets } from '../../constants'
+import { BETS } from '../../constants'
 
 const Home = ({ navigation }) => {
   React.useLayoutEffect(() => {
@@ -17,18 +16,26 @@ const Home = ({ navigation }) => {
     })
   }, [navigation])
 
+  const handleClickBet = (bet) => {
+    navigation.navigate('Wait', { bet })
+  }
+
   return (
     <Container customStyle={styles.screen}>
       <Card propStyles={styles.card}>
-        <View style={styles.card_inner}>
-          <H3>Выберите ставку</H3>
+        <View style={styles.cardInner}>
+          <H3 propStyles={styles.cardTitle}>Выберите ставку</H3>
           
-          <FlatGrid
-            itemDimension={70}
-            spacing={20}
-            data={bets}
-            renderItem={({ item }) => <Bet onPress={() => {}}>{item}</Bet>}
-          />
+          <View style={styles.bets}>
+            {BETS.map((bet) => (
+              <Bet
+                key={bet}
+                bet={bet}
+                onPress={() => handleClickBet(bet)}
+                customStyle={styles.bet}
+              />
+            ))}
+          </View>
         </View>
       </Card>
     </Container>
@@ -44,17 +51,30 @@ const styles = StyleSheet.create({
     width: '90%',
     height: 400
   },
-  card_inner: {
+  cardInner: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  cardTitle: {
+    marginBottom: 14
+  },
+  bets: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around'
+  },
+  bet: {
+    margin: 5
   }
 })
 
 Home.propTypes = {
   navigation: PropTypes.shape({
-    setOptions: PropTypes.func
+    setOptions: PropTypes.func,
+    navigate: PropTypes.func
   })
 }
 

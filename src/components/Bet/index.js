@@ -1,37 +1,47 @@
 /* eslint-disable no-undef */
 import React from 'react'
-import { TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { TouchableOpacity, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
+import { FontAwesome5 } from '@expo/vector-icons'
 
-const betImages = {
-  100: require('../../../assets/bets/100.png'),
-  200: require('../../../assets/bets/200.png'),
-  300: require('../../../assets/bets/300.png'),
-  400: require('../../../assets/bets/400.png'),
-  500: require('../../../assets/bets/500.png'),
-  1000: require('../../../assets/bets/1000.png'),
-  2000: require('../../../assets/bets/2000.png'),
-  5000: require('../../../assets/bets/5000.png')
-}
+import Colors from '../../theme/colors'
 
-const Bet = ({ onPress, children }) => {
+const Bet = ({ onPress, bet, customStyle }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <Image style={styles.image} source={betImages[children]} />
+    <TouchableOpacity
+      style={{ ...styles.bet, ...customStyle }}
+      onPress={onPress}
+    >
+      <Text style={styles.label}>{bet}</Text>
+      <FontAwesome5 name="tenge" size={24} color={Colors.primary_font} />
     </TouchableOpacity>
   )
 }
 
 const styles = StyleSheet.create({
-  image: {
-    width: 75,
-    height: 38
+  bet: {
+    width: 120,
+    height: 60,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.secondary_bg,
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: Colors.primary_bg
+  },
+  label: {
+    fontSize: 24,
+    fontWeight: '500',
+    color: Colors.primary_font,
+    marginRight: 5
   }
 })
 
 Bet.propTypes = {
   onPress: PropTypes.func.isRequired,
-  children: PropTypes.number
+  bet: PropTypes.number,
+  customStyle: PropTypes.object
 }
 
 export default Bet

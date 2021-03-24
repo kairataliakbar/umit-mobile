@@ -5,6 +5,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import PropTypes from 'prop-types'
 
 import Home from '../../screens/home'
+import Wait from '../../screens/wait'
 import Game from '../../screens/game'
 
 import CustomHeaderButton from '../../components/CustomHeaderButton'
@@ -37,9 +38,16 @@ const AppNavigation = ({ navigation }) => {
     )
   }
 
+  const waitNavigationOptions = {
+    ...navigationOptions,
+    headerTitle: '',
+    headerRight: () => {}
+  }
+
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home" component={Home} options={navigationOptions} />
+      <Stack.Screen name="Wait" component={Wait} options={waitNavigationOptions} />
       <Stack.Screen name="Game" component={Game} options={navigationOptions} />
     </Stack.Navigator>
   )
