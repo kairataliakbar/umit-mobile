@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { View, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { useForm, Controller } from 'react-hook-form'
@@ -8,10 +8,12 @@ import H1 from '../../components/Text/H1'
 import Input from '../../components/inputs/Input'
 import Button from '../../components/Button'
 
+import { EMAIL_PATTERN } from '../../constants'
+
 const Signin = ({ navigation }) => {
   const { control, handleSubmit, errors } = useForm()
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: ''
     })
@@ -60,7 +62,7 @@ const Signin = ({ navigation }) => {
           )}
           name="email"
           defaultValue=""
-          rules={{ required: true, pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/ }}
+          rules={{ required: true, pattern: EMAIL_PATTERN }}
         />
         <Controller
           control={control}

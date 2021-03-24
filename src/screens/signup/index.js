@@ -8,6 +8,8 @@ import H1 from '../../components/Text/H1'
 import Input from '../../components/inputs/Input'
 import Button from '../../components/Button'
 
+import { EMAIL_PATTERN } from '../../constants'
+
 const Signup = ({ navigation }) => {
   const { control, handleSubmit, errors, watch, setError } = useForm()
 
@@ -119,7 +121,7 @@ const Signup = ({ navigation }) => {
             )}
             name="email"
             defaultValue=""
-            rules={{ required: true, pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/ }}
+            rules={{ required: true, pattern: EMAIL_PATTERN }}
           />
           <Controller
             control={control}

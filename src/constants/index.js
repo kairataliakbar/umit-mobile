@@ -8,3 +8,5 @@ export const bets = [
   2000,
   5000
 ]
+
+export const EMAIL_PATTERN = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/

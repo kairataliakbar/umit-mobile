@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 54,
     left: 0,
-    color: 'red',
+    color: Colors.error,
     fontSize: 14
   }
 })
