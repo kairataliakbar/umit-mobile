@@ -50,7 +50,7 @@ const Signin = ({ navigation }) => {
           control={control}
           render={({ onChange, value }) => (
             <Input
-              placeholder="Почта"
+              placeholder="Почта*"
               autoCapitalize="none"
               keyboardType="email-address"
               value={value}
@@ -66,7 +66,7 @@ const Signin = ({ navigation }) => {
           control={control}
           render={({ onChange, value }) => (
             <Input
-              placeholder="Пароль"
+              placeholder="Пароль*"
               password
               value={value}
               onChangeText={(value) => onChange(value)}

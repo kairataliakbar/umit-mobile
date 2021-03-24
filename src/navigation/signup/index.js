@@ -4,8 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import PropTypes from 'prop-types'
 
-import Signin from '../../screens/auth/Signin'
-import Signup from '../../screens/auth/Signup'
+import Signup from '../../screens/signup'
 
 import CustomHeaderButton from '../../components/CustomHeaderButton'
 
@@ -13,7 +12,7 @@ import Colors from '../../theme/colors'
 
 const Stack = createStackNavigator()
 
-const AuthNavigation = ({ navigation }) => {
+const SignupNavigation = ({ navigation }) => {
   const navigationOptions = {
     headerStyle: {
       backgroundColor: Colors.secondary_bg,
@@ -39,16 +38,15 @@ const AuthNavigation = ({ navigation }) => {
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Signin" component={Signin} options={navigationOptions} />
       <Stack.Screen name="Signup" component={Signup} options={navigationOptions} />
     </Stack.Navigator>
   )
 }
 
-AuthNavigation.propTypes = {
+SignupNavigation.propTypes = {
   navigation: PropTypes.shape({
     toggleDrawer: PropTypes.func.isRequired
   }).isRequired
 }
 
-export default AuthNavigation
+export default SignupNavigation

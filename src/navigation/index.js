@@ -2,7 +2,8 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import Auth from './auth'
+import Signin from './signin'
+import Signup from './signup'
 import App from './app'
 
 import Color from '../theme/colors'
@@ -29,9 +30,14 @@ const Navigation = () => {
           options={{ drawerLabel: 'Главная' }}
         />
         <Drawer.Screen
-          name="Auth"
-          component={Auth}
+          name="Signin"
+          component={Signin}
           options={{ drawerLabel: 'Вход' }}
+        />
+        <Drawer.Screen
+          name="Signup"
+          component={Signup}
+          options={{ drawerLabel: 'Регистрация' }}
         />
       </Drawer.Navigator>
     </NavigationContainer>
