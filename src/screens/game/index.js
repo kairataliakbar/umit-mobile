@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react'
-import { StyleSheet, Text, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, ActivityIndicator, Button } from 'react-native'
 import PropTypes from 'prop-types'
+import WheelOfFortune from 'react-native-wheel-of-fortune'
 
 import Container from '../../components/Container'
 import H3 from '../../components/Text/H3'
 
 import Colors from '../../theme/colors'
+import knobImage from '../../../assets/knob.png'
 
 const Game = ({ navigation, route }) => {
   const [playersCount, setPlayersCount] = useState(40)
@@ -33,12 +35,47 @@ const Game = ({ navigation, route }) => {
     }
   }
 
+  const participants = [
+    '%10',
+    '%20',
+    '%30',
+    '%40',
+    '%50',
+    '%60',
+    '%70',
+    '%90',
+    'FREE'
+  ]
+
+  const wheelOptions = {
+    rewards: participants,
+    knobSize: 50,
+    borderWidth: 5,
+    borderColor: '#000',
+    innerRadius: 50,
+    duration: 4000,
+    backgroundColor: 'transparent',
+    textAngle: 'horizontal',
+    knobSource: knobImage,
+    getWinner: (value, index) => {
+      this.setState({winnerValue: value, winnerIndex: index})
+    },
+    onRef: ref => (this.child = ref)
+  }
+
   return (
     <Container customStyle={styles.screen}>
       {playersCount === 100 ? (
         <>
           <Text>Игра началась</Text>
           <Text>{bet}</Text>
+          <WheelOfFortune wheelOptions={wheelOptions} />
+          <Button
+            title="Press me"
+            onPress={() => {
+              this.child._onPress()
+            }}
+          />
         </>
       ) : (
         <>
