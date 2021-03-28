@@ -17,7 +17,7 @@ const Home = ({ navigation }) => {
   }, [navigation])
 
   const handleClickBet = (bet) => {
-    navigation.navigate('Wait', { bet })
+    navigation.navigate('Game', { bet })
   }
 
   return (
