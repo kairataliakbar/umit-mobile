@@ -1,68 +1,22 @@
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import { View, ScrollView, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import { useForm, Controller } from 'react-hook-form'
 import axios from 'axios'
 
-import Container from '../../components/Container'
-import H1 from '../../components/Text/H1'
-import Input from '../../components/inputs/Input'
-import Button from '../../components/Button'
-
-import { EMAIL_PATTERN } from '../../constants'
+import Container from '../../components/atoms/Container'
+import H1 from '../../components/atoms/text/H1'
+import SignupForm from '../../components/organisms/forms/SignupForm'
 
 const Signup = ({ navigation }) => {
-  const { control, handleSubmit, errors, watch, setError } = useForm()
-
-  const passwordValue = watch('password')
-  const passwordConfirmValue = watch('password_confirm')
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: ''
     })
   }, [navigation])
 
-  useEffect(() => {
-    if (passwordValue && (passwordValue !== passwordConfirmValue)) {
-      setError('password_confirm', { type: 'manual' })
-    }
-  }, [passwordValue, passwordConfirmValue])
-
-  const validEmail = (error) => {
-    if (error) {
-      if (error.type === 'pattern') {
-        return 'Email введен некорректно'
-      }
-      return 'Это обязательное поле'
-    }
-    return null
-  }
-
-  const validPassword = (error) => {
-    if (error) {
-      if (error.type === 'minLength') {
-        return 'Длина должна быть больше 8'
-      }
-      return 'Это обязательное поле'
-    }
-    return null
-  }
-
-  const validPasswordConfirm = (error) => {
-    if (error) {
-      if (error.type === 'manual') {
-        return 'Пароли разные'
-      }
-      return 'Это обязательное поле'
-    }
-    return null
-  }
-
-  // eslint-disable-next-line no-unused-vars
-  const onSubmit = ({ password_confirm, ...data }) => {
+  const handleSubmit = ({ password_confirm, ...data }) => {
     axios.post('http://kzbusinesstries.site/register.php', { data })
-      .then((res) => console.log(res, 'res'))
+      .then((res) => console.log(res, password_confirm, 'res'))
       .catch((err) => console.log(err, 'err'))
   }
 
@@ -72,93 +26,8 @@ const Signup = ({ navigation }) => {
         <View style={styles.screen}>
           <H1 propStyles={styles.title}>Регистрация</H1>
             
-          <View style={styles.actions}>
-            <Controller
-              control={control}
-              render={({ onChange, value }) => (
-                <Input
-                  placeholder="Имя пользователя*"
-                  autoCapitalize="none"
-                  value={value}
-                  onChangeText={(value) => onChange(value)}
-                  error={errors.username && 'Это обязательное поле'}
-                />
-              )}
-              name="username"
-              defaultValue=""
-              rules={{ required: true }}
-            />
-            <Controller
-              control={control}
-              render={({ onChange, value }) => (
-                <Input
-                  placeholder="Имя"
-                  value={value}
-                  onChangeText={(value) => onChange(value)}
-                />
-              )}
-              name="first_name"
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ onChange, value }) => (
-                <Input
-                  placeholder="Фамилия"
-                  value={value}
-                  onChangeText={(value) => onChange(value)}
-                />
-              )}
-              name="last_name"
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ onChange, value }) => (
-                <Input
-                  placeholder="E-mail*"
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                  value={value}
-                  onChangeText={(value) => onChange(value)}
-                  error={validEmail(errors.email)}
-                />
-              )}
-              name="email"
-              defaultValue=""
-              rules={{ required: true, pattern: EMAIL_PATTERN }}
-            />
-            <Controller
-              control={control}
-              render={({ onChange, value }) => (
-                <Input
-                  placeholder="Пароль*"
-                  password
-                  value={value}
-                  onChangeText={(value) => onChange(value)}
-                  error={validPassword(errors.password)}
-                />
-              )}
-              name="password"
-              defaultValue=""
-              rules={{ required: true, minLength: 8 }}
-            />
-            <Controller
-              control={control}
-              render={({ onChange, value }) => (
-                <Input
-                  placeholder="Повторите пароль*"
-                  password
-                  value={value}
-                  onChangeText={(value) => onChange(value)}
-                  error={validPasswordConfirm(errors.password_confirm)}
-                />
-              )}
-              name="password_confirm"
-              defaultValue=""
-              rules={{ required: true }}
-            />
-            <Button onPress={handleSubmit(onSubmit)}>Зарегистрироваться</Button>
+          <View style={styles.form}>
+            <SignupForm onSubmit={handleSubmit} />
           </View>
         </View>
       </ScrollView>
@@ -175,7 +44,7 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 30
   },
-  actions: {
+  form: {
     maxWidth: 400,
     width: '80%'  
   }

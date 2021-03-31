@@ -3,7 +3,7 @@ import { View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-nativ
 import PropTypes from 'prop-types'
 import { Ionicons } from '@expo/vector-icons'
 
-import Colors from '../../theme/colors'
+import Colors from '../../../theme/colors'
 
 const Input = ({ value, onChangeText, password, error, ...rest }) => {
   const [isFocused, setIsFocused] = useState(false)
@@ -36,7 +36,7 @@ const Input = ({ value, onChangeText, password, error, ...rest }) => {
         )}
         {!!value && (
           <TouchableOpacity style={styles.inputAction} onPress={clearInput}>
-            <Ionicons name="close-circle" size={24} color={Colors.secondary_font} />
+            <Ionicons name="close-circle" size={22} color={Colors.secondary_font} />
           </TouchableOpacity>
         )}
       </View>
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: 10,
     paddingHorizontal: 12,
     backgroundColor: Colors.third_bg,
     borderWidth: 2,

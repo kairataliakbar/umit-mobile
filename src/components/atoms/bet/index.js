@@ -4,7 +4,7 @@ import { TouchableOpacity, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { FontAwesome5 } from '@expo/vector-icons'
 
-import Colors from '../../theme/colors'
+import Colors from '../../../theme/colors'
 
 const Bet = ({ onPress, bet, customStyle }) => {
   return (

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import Home from '../../screens/home'
 import Game from '../../screens/game'
 
-import CustomHeaderButton from '../../components/CustomHeaderButton'
+import CustomHeaderButton from '../../components/atoms/buttons/CustomHeaderButton'
 
 import Colors from '../../theme/colors'
 

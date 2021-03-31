@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 import Signup from '../../screens/signup'
 
-import CustomHeaderButton from '../../components/CustomHeaderButton'
+import CustomHeaderButton from '../../components/atoms/buttons/CustomHeaderButton'
 
 import Colors from '../../theme/colors'
 

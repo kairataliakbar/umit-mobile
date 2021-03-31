@@ -3,7 +3,7 @@ import { HeaderButton } from 'react-navigation-header-buttons'
 import { Ionicons } from '@expo/vector-icons'
 import PropTypes from 'prop-types'
 
-import Colors from '../../theme/colors'
+import Colors from '../../../theme/colors'
 
 const CustomHeaderButton = (props) => {
   const { color = Colors.third_font, size = 24, ...rest } = props

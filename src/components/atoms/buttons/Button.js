@@ -2,7 +2,7 @@ import React from 'react'
 import { TouchableOpacity, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 
-import Colors from '../../theme/colors'
+import Colors from '../../../theme/colors'
 
 const Button = ({ label, children, onPress }) => {
   return (
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     paddingVertical: 10,
-    paddingHorizontal: 14,
+    paddingHorizontal: 12,
     marginBottom: 30,
     backgroundColor: Colors.secondary_bg,
     borderWidth: 2,
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   label: {
-    fontSize: 22,
+    fontSize: 20,
     color: Colors.third_font
   }
 })

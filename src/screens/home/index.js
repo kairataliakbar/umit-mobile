@@ -2,10 +2,10 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 
-import Container from '../../components/Container'
-import Card from '../../components/Card'
-import H3 from '../../components/Text/H3'
-import Bet from '../../components/Bet'
+import Container from '../../components/atoms/Container'
+import Card from '../../components/atoms/card'
+import H3 from '../../components/atoms/text/H3'
+import Bet from '../../components/atoms/bet'
 
 import { BETS } from '../../constants'
 
