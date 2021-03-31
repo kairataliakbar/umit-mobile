@@ -47,15 +47,15 @@ const Input = ({ value, onChangeText, password, error, ...rest }) => {
 
 const styles = StyleSheet.create({
   inputContainer: {
-    marginBottom: 34,
+    marginBottom: 30,
     position: 'relative'
   },
   input: {
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 14,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     backgroundColor: Colors.third_bg,
     borderWidth: 2,
     borderRadius: 3,
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     color: Colors.secondary_font,
-    fontSize: 22
+    fontSize: 20
   },
   inputFocused: {
     borderColor: Colors.primary_font
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   error: {
     position: 'absolute',
-    top: 54,
+    top: 51,
     left: 0,
     color: Colors.error,
     fontSize: 14

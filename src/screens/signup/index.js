@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect } from 'react'
 import { View, ScrollView, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { useForm, Controller } from 'react-hook-form'
+import axios from 'axios'
 
 import Container from '../../components/Container'
 import H1 from '../../components/Text/H1'
@@ -58,102 +59,107 @@ const Signup = ({ navigation }) => {
     return null
   }
 
-  const onSubmit = (data) => {
-    console.log(data)
+  // eslint-disable-next-line no-unused-vars
+  const onSubmit = ({ password_confirm, ...data }) => {
+    axios.post('http://kzbusinesstries.site/register.php', { data })
+      .then((res) => console.log(res, 'res'))
+      .catch((err) => console.log(err, 'err'))
   }
 
   return (
     <Container>
-      <ScrollView contentContainerStyle={styles.screen}>
-        <H1 propStyles={styles.title}>Регистрация</H1>
-          
-        <View style={styles.actions}>
-          <Controller
-            control={control}
-            render={({ onChange, value }) => (
-              <Input
-                placeholder="Имя пользователя*"
-                autoCapitalize="none"
-                value={value}
-                onChangeText={(value) => onChange(value)}
-                error={errors.name && 'Это обязательное поле'}
-              />
-            )}
-            name="name"
-            defaultValue=""
-            rules={{ required: true }}
-          />
-          <Controller
-            control={control}
-            render={({ onChange, value }) => (
-              <Input
-                placeholder="Имя"
-                value={value}
-                onChangeText={(value) => onChange(value)}
-              />
-            )}
-            name="first_name"
-            defaultValue=""
-          />
-          <Controller
-            control={control}
-            render={({ onChange, value }) => (
-              <Input
-                placeholder="Фамилия"
-                value={value}
-                onChangeText={(value) => onChange(value)}
-              />
-            )}
-            name="last_name"
-            defaultValue=""
-          />
-          <Controller
-            control={control}
-            render={({ onChange, value }) => (
-              <Input
-                placeholder="E-mail*"
-                autoCapitalize="none"
-                keyboardType="email-address"
-                value={value}
-                onChangeText={(value) => onChange(value)}
-                error={validEmail(errors.email)}
-              />
-            )}
-            name="email"
-            defaultValue=""
-            rules={{ required: true, pattern: EMAIL_PATTERN }}
-          />
-          <Controller
-            control={control}
-            render={({ onChange, value }) => (
-              <Input
-                placeholder="Пароль*"
-                password
-                value={value}
-                onChangeText={(value) => onChange(value)}
-                error={validPassword(errors.password)}
-              />
-            )}
-            name="password"
-            defaultValue=""
-            rules={{ required: true, minLength: 8 }}
-          />
-          <Controller
-            control={control}
-            render={({ onChange, value }) => (
-              <Input
-                placeholder="Повторите пароль*"
-                password
-                value={value}
-                onChangeText={(value) => onChange(value)}
-                error={validPasswordConfirm(errors.password_confirm)}
-              />
-            )}
-            name="password_confirm"
-            defaultValue=""
-            rules={{ required: true }}
-          />
-          <Button onPress={handleSubmit(onSubmit)}>Зарегистрироваться</Button>
+      <ScrollView contentContainerStyle={{ flex: 1 }}>
+        <View style={styles.screen}>
+          <H1 propStyles={styles.title}>Регистрация</H1>
+            
+          <View style={styles.actions}>
+            <Controller
+              control={control}
+              render={({ onChange, value }) => (
+                <Input
+                  placeholder="Имя пользователя*"
+                  autoCapitalize="none"
+                  value={value}
+                  onChangeText={(value) => onChange(value)}
+                  error={errors.username && 'Это обязательное поле'}
+                />
+              )}
+              name="username"
+              defaultValue=""
+              rules={{ required: true }}
+            />
+            <Controller
+              control={control}
+              render={({ onChange, value }) => (
+                <Input
+                  placeholder="Имя"
+                  value={value}
+                  onChangeText={(value) => onChange(value)}
+                />
+              )}
+              name="first_name"
+              defaultValue=""
+            />
+            <Controller
+              control={control}
+              render={({ onChange, value }) => (
+                <Input
+                  placeholder="Фамилия"
+                  value={value}
+                  onChangeText={(value) => onChange(value)}
+                />
+              )}
+              name="last_name"
+              defaultValue=""
+            />
+            <Controller
+              control={control}
+              render={({ onChange, value }) => (
+                <Input
+                  placeholder="E-mail*"
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  value={value}
+                  onChangeText={(value) => onChange(value)}
+                  error={validEmail(errors.email)}
+                />
+              )}
+              name="email"
+              defaultValue=""
+              rules={{ required: true, pattern: EMAIL_PATTERN }}
+            />
+            <Controller
+              control={control}
+              render={({ onChange, value }) => (
+                <Input
+                  placeholder="Пароль*"
+                  password
+                  value={value}
+                  onChangeText={(value) => onChange(value)}
+                  error={validPassword(errors.password)}
+                />
+              )}
+              name="password"
+              defaultValue=""
+              rules={{ required: true, minLength: 8 }}
+            />
+            <Controller
+              control={control}
+              render={({ onChange, value }) => (
+                <Input
+                  placeholder="Повторите пароль*"
+                  password
+                  value={value}
+                  onChangeText={(value) => onChange(value)}
+                  error={validPasswordConfirm(errors.password_confirm)}
+                />
+              )}
+              name="password_confirm"
+              defaultValue=""
+              rules={{ required: true }}
+            />
+            <Button onPress={handleSubmit(onSubmit)}>Зарегистрироваться</Button>
+          </View>
         </View>
       </ScrollView>
     </Container>
