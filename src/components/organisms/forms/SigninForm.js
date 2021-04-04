@@ -7,8 +7,8 @@ import Button from '../../atoms/buttons/Button'
 
 import { EMAIL_PATTERN } from '../../../constants'
 
-const SigninForm = ({ onSubmit }) => {
-  const { control, handleSubmit, errors } = useForm()
+const SigninForm = ({ onSubmit, defaultValues }) => {
+  const { control, handleSubmit, errors } = useForm({ defaultValues })
 
   const validEmail = (error) => {
     if (error) {
@@ -69,7 +69,8 @@ const SigninForm = ({ onSubmit }) => {
 }
 
 SigninForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  defaultValues: PropTypes.object
 }
 
 export default SigninForm

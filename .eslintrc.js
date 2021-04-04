@@ -20,6 +20,13 @@ module.exports = {
     'rules': {
         'semi': ['error', 'never'],
         'quotes': ['error', 'single'],
-        'comma-dangle': ['error', 'never']
+        'comma-dangle': ['error', 'never'],
+        'code': 60,
+        'ignoreComments': true,
+        'ignoreTrailingComments': true,
+        'ignoreUrls': true,
+        'ignoreStrings': true,
+        'ignoreTemplateLiterals': true,
+        'ignoreRegExpLiterals': true
     }
 }

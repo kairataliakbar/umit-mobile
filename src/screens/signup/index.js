@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from 'react'
-import { View, ScrollView, StyleSheet } from 'react-native'
+import { View, ScrollView, StyleSheet, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 
@@ -14,10 +14,16 @@ const Signup = ({ navigation }) => {
     })
   }, [navigation])
 
+  // eslint-disable-next-line no-unused-vars
   const handleSubmit = ({ password_confirm, ...data }) => {
-    axios.post('http://kzbusinesstries.site/register.php', { data })
-      .then((res) => console.log(res, password_confirm, 'res'))
-      .catch((err) => console.log(err, 'err'))
+    axios.post('http://kzbusinesstries.site/register.php', data)
+      .then(() => navigation.navigate('Signin', {
+        email: data.email,
+        password: data.password
+      }))
+      .catch((err) => {
+        Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
+      })
   }
 
   return (
@@ -25,7 +31,6 @@ const Signup = ({ navigation }) => {
       <ScrollView contentContainerStyle={{ flex: 1 }}>
         <View style={styles.screen}>
           <H1 propStyles={styles.title}>Регистрация</H1>
-            
           <View style={styles.form}>
             <SignupForm onSubmit={handleSubmit} />
           </View>
@@ -52,7 +57,8 @@ const styles = StyleSheet.create({
 
 Signup.propTypes = {
   navigation: PropTypes.shape({
-    setOptions: PropTypes.func
+    setOptions: PropTypes.func,
+    navigate: PropTypes.func
   })
 }
 
