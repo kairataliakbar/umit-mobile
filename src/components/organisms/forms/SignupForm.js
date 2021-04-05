@@ -8,7 +8,7 @@ import Button from '../../atoms/buttons/Button'
 import { EMAIL_PATTERN } from '../../../constants'
 
 const SignupForm = ({ onSubmit }) => {
-  const { control, handleSubmit, errors, watch, setError } = useForm()
+  const { control, handleSubmit, errors, watch, setError, reset } = useForm()
 
   const passwordValue = watch('password')
   const passwordConfirmValue = watch('password_confirm')
@@ -47,6 +47,11 @@ const SignupForm = ({ onSubmit }) => {
       return 'Это обязательное поле'
     }
     return null
+  }
+
+  const formSubmit = async (data) => {
+    await onSubmit(data)
+    reset()
   }
 
   return (
@@ -136,7 +141,7 @@ const SignupForm = ({ onSubmit }) => {
         defaultValue=""
         rules={{ required: true }}
       />
-      <Button onPress={handleSubmit(onSubmit)}>Зарегистрироваться</Button>
+      <Button onPress={handleSubmit(formSubmit)}>Зарегистрироваться</Button>
     </>
   )
 }

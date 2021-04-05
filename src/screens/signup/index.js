@@ -15,15 +15,19 @@ const Signup = ({ navigation }) => {
   }, [navigation])
 
   // eslint-disable-next-line no-unused-vars
-  const handleSubmit = ({ password_confirm, ...data }) => {
-    axios.post('http://kzbusinesstries.site/register.php', data)
-      .then(() => navigation.navigate('Signin', {
-        email: data.email,
-        password: data.password
-      }))
-      .catch((err) => {
-        Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
+  const handleSubmit = async ({ password_confirm, ...data }) => {
+    try {
+      await axios.post('http://kzbusinesstries.site/register.php', data)
+      navigation.navigate('Signin', {
+        screen: 'Signin',
+        params: {
+          email: data.email,
+          password: data.password
+        }
       })
+    } catch (err) {
+      Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
+    }
   }
 
   return (
