@@ -5,6 +5,7 @@ import axios from 'axios'
 import { Ionicons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+import DismissKeyboard from '../../components/atoms/DismissKeyboard'
 import Container from '../../components/atoms/Container'
 import H1 from '../../components/atoms/text/H1'
 import SigninForm from '../../components/organisms/forms/SigninForm'
@@ -34,22 +35,24 @@ const Signin = ({ navigation, route }) => {
   }
 
   return (
-    <Container customStyle={styles.screen}>
-      <H1 propStyles={styles.title}>Вход</H1>
+    <DismissKeyboard>
+      <Container customStyle={styles.screen}>
+        <H1 propStyles={styles.title}>Вход</H1>
+          
+        {route?.params?.afterSignup && (
+          <View style={styles.alert}>
+            <Ionicons name="alert-circle-outline" size={26} color={Colors.third_font} />
+            <Text style={styles.alertLabel}>
+              После регистрации, перед входом, обязательно нужно подтвердить почту
+            </Text>
+          </View>
+        )}
         
-      {route?.params?.afterSignup && (
-        <View style={styles.alert}>
-          <Ionicons name="alert-circle-outline" size={26} color={Colors.third_font} />
-          <Text style={styles.alertLabel}>
-            После регистрации, перед входом, обязательно нужно подтвердить почту
-          </Text>
+        <View style={styles.form}>
+          <SigninForm isLoad={isLoad} onSubmit={handleSubmit} />
         </View>
-      )}
-      
-      <View style={styles.form}>
-        <SigninForm isLoad={isLoad} onSubmit={handleSubmit} />
-      </View>
-    </Container>
+      </Container>
+    </DismissKeyboard>
   )
 }
 

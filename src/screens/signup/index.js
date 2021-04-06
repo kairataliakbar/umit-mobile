@@ -3,6 +3,7 @@ import { View, ScrollView, StyleSheet, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 
+import DismissKeyboard from '../../components/atoms/DismissKeyboard'
 import Container from '../../components/atoms/Container'
 import H1 from '../../components/atoms/text/H1'
 import SignupForm from '../../components/organisms/forms/SignupForm'
@@ -35,14 +36,16 @@ const Signup = ({ navigation }) => {
   }
 
   return (
-    <Container>
-      <ScrollView contentContainerStyle={styles.screen}>
-        <H1 propStyles={styles.title}>Регистрация</H1>
-        <View style={styles.form}>
-          <SignupForm onSubmit={handleSubmit} isLoad={isLoad} />
-        </View>
-      </ScrollView>
-    </Container>
+    <DismissKeyboard>
+      <Container>
+        <ScrollView contentContainerStyle={styles.screen}>
+          <H1 propStyles={styles.title}>Регистрация</H1>
+          <View style={styles.form}>
+            <SignupForm onSubmit={handleSubmit} isLoad={isLoad} />
+          </View>
+        </ScrollView>
+      </Container>
+    </DismissKeyboard>
   )
 }
 
