@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect } from 'react'
-import { View, ScrollView, StyleSheet, Alert } from 'react-native'
+import { View, ScrollView, StyleSheet, Alert, KeyboardAvoidingView, Platform } from 'react-native'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 
@@ -35,21 +35,28 @@ const Signup = ({ navigation }) => {
     }
   }
 
+  const Wrapper = Platform.OS === "android" ? View : KeyboardAvoidingView
+
   return (
-    <DismissKeyboard>
-      <Container>
-        <ScrollView contentContainerStyle={styles.screen}>
-          <H1 propStyles={styles.title}>Регистрация</H1>
-          <View style={styles.form}>
-            <SignupForm onSubmit={handleSubmit} isLoad={isLoad} />
-          </View>
-        </ScrollView>
-      </Container>
-    </DismissKeyboard>
+    <Wrapper style={styles.wrapper} behavior="padding" keyboardVerticalOffset={140}>
+      <DismissKeyboard>
+        <Container>
+          <ScrollView contentContainerStyle={styles.screen}>
+            <H1 propStyles={styles.title}>Регистрация</H1>
+            <View style={styles.form}>
+              <SignupForm onSubmit={handleSubmit} isLoad={isLoad} />
+            </View>
+          </ScrollView>
+        </Container>
+      </DismissKeyboard>
+    </Wrapper>
   )
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1
+  },
   screen: {
     alignItems: 'center',
     paddingVertical: 40

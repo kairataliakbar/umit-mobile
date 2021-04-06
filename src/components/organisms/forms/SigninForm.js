@@ -44,6 +44,7 @@ const SigninForm = ({ onSubmit, isLoad }) => {
             placeholder="Почта*"
             autoCapitalize="none"
             keyboardType="email-address"
+            returnKeyType="next"
             value={value}
             onChangeText={(value) => onChange(value)}
             error={validEmail(errors.email)}
@@ -58,6 +59,7 @@ const SigninForm = ({ onSubmit, isLoad }) => {
         render={({ onChange, value }) => (
           <Input
             placeholder="Пароль*"
+            returnKeyType="send"
             password
             value={value}
             onChangeText={(value) => onChange(value)}

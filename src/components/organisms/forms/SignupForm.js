@@ -66,6 +66,7 @@ const SignupForm = ({ onSubmit, isLoad }) => {
           <Input
             placeholder="Имя пользователя*"
             autoCapitalize="none"
+            returnKeyType="next"
             value={value}
             onChangeText={(value) => onChange(value)}
             error={errors.username && 'Это обязательное поле'}
@@ -80,6 +81,7 @@ const SignupForm = ({ onSubmit, isLoad }) => {
         render={({ onChange, value }) => (
           <Input
             placeholder="Имя"
+            returnKeyType="next"
             value={value}
             onChangeText={(value) => onChange(value)}
           />
@@ -92,6 +94,7 @@ const SignupForm = ({ onSubmit, isLoad }) => {
         render={({ onChange, value }) => (
           <Input
             placeholder="Фамилия"
+            returnKeyType="next"
             value={value}
             onChangeText={(value) => onChange(value)}
           />
@@ -106,6 +109,7 @@ const SignupForm = ({ onSubmit, isLoad }) => {
             placeholder="E-mail*"
             autoCapitalize="none"
             keyboardType="email-address"
+            returnKeyType="next"
             value={value}
             onChangeText={(value) => onChange(value)}
             error={validEmail(errors.email)}
@@ -120,6 +124,7 @@ const SignupForm = ({ onSubmit, isLoad }) => {
         render={({ onChange, value }) => (
           <Input
             placeholder="Пароль*"
+            returnKeyType="next"
             password
             value={value}
             onChangeText={(value) => onChange(value)}
@@ -135,6 +140,7 @@ const SignupForm = ({ onSubmit, isLoad }) => {
         render={({ onChange, value }) => (
           <Input
             placeholder="Повторите пароль*"
+            returnKeyType="send"
             password
             value={value}
             onChangeText={(value) => onChange(value)}

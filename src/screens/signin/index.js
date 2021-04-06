@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect } from 'react'
-import { View, StyleSheet, Text, Alert } from 'react-native'
+import { View, StyleSheet, Text, Alert, KeyboardAvoidingView, Platform } from 'react-native'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import { Ionicons } from '@expo/vector-icons'
@@ -34,29 +34,36 @@ const Signin = ({ navigation, route }) => {
     }
   }
 
+  const Wrapper = Platform.OS === "android" ? View : KeyboardAvoidingView
+
   return (
-    <DismissKeyboard>
-      <Container customStyle={styles.screen}>
-        <H1 propStyles={styles.title}>Вход</H1>
+    <Wrapper style={styles.wrapper} behavior="padding" keyboardVerticalOffset={10}>
+      <DismissKeyboard>
+        <Container customStyle={styles.screen}>
+          <H1 propStyles={styles.title}>Вход</H1>
+            
+          {route?.params?.afterSignup && (
+            <View style={styles.alert}>
+              <Ionicons name="alert-circle-outline" size={26} color={Colors.third_font} />
+              <Text style={styles.alertLabel}>
+                После регистрации, перед входом, обязательно нужно подтвердить почту
+              </Text>
+            </View>
+          )}
           
-        {route?.params?.afterSignup && (
-          <View style={styles.alert}>
-            <Ionicons name="alert-circle-outline" size={26} color={Colors.third_font} />
-            <Text style={styles.alertLabel}>
-              После регистрации, перед входом, обязательно нужно подтвердить почту
-            </Text>
+          <View style={styles.form}>
+            <SigninForm isLoad={isLoad} onSubmit={handleSubmit} />
           </View>
-        )}
-        
-        <View style={styles.form}>
-          <SigninForm isLoad={isLoad} onSubmit={handleSubmit} />
-        </View>
-      </Container>
-    </DismissKeyboard>
+        </Container>
+      </DismissKeyboard>
+    </Wrapper>
   )
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1
+  },
   screen: {
     alignItems: 'center',
     justifyContent: 'center'
