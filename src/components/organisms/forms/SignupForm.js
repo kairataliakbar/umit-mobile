@@ -7,15 +7,19 @@ import Button from '../../atoms/buttons/Button'
 
 import { EMAIL_PATTERN } from '../../../constants'
 
-const SignupForm = ({ onSubmit }) => {
-  const { control, handleSubmit, errors, watch, setError, reset } = useForm()
+const SignupForm = ({ onSubmit, isLoad }) => {
+  const { control, handleSubmit, errors, watch, setError, clearErrors, reset } = useForm()
 
   const passwordValue = watch('password')
   const passwordConfirmValue = watch('password_confirm')
 
   useEffect(() => {
-    if (passwordValue && (passwordValue !== passwordConfirmValue)) {
-      setError('password_confirm', { type: 'manual' })
+    if (passwordValue && passwordConfirmValue) {
+      if (passwordValue === passwordConfirmValue) {
+        clearErrors('password_confirm')
+      } else {
+        setError('password_confirm', { type: 'manual' })
+      }
     }
   }, [passwordValue, passwordConfirmValue])
 
@@ -141,13 +145,16 @@ const SignupForm = ({ onSubmit }) => {
         defaultValue=""
         rules={{ required: true }}
       />
-      <Button onPress={handleSubmit(formSubmit)}>Зарегистрироваться</Button>
+      <Button load={isLoad} onPress={handleSubmit(formSubmit)}>
+        Зарегистрироваться
+      </Button>
     </>
   )
 }
 
 SignupForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  isLoad: PropTypes.bool
 }
 
 export default SignupForm

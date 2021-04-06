@@ -1,13 +1,15 @@
 import React from 'react'
-import { TouchableOpacity, Text, StyleSheet } from 'react-native'
+import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from 'react-native'
 import PropTypes from 'prop-types'
 
 import Colors from '../../../theme/colors'
 
-const Button = ({ label, children, onPress }) => {
+const Button = ({ label, children, onPress, load }) => {
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text style={styles.label}>{label || children}</Text>
+      {load
+        ? <ActivityIndicator size="small" color={Colors.third_font} />
+        : <Text style={styles.label}>{label || children}</Text>}
     </TouchableOpacity>
   )
 }
@@ -15,6 +17,7 @@ const Button = ({ label, children, onPress }) => {
 const styles = StyleSheet.create({
   button: {
     width: '100%',
+    minHeight: 50,
     paddingVertical: 10,
     paddingHorizontal: 12,
     marginBottom: 30,
@@ -34,7 +37,8 @@ const styles = StyleSheet.create({
 Button.propTypes = {
   label: PropTypes.string,
   children: PropTypes.string,
-  onPress: PropTypes.func
+  onPress: PropTypes.func,
+  load: PropTypes.bool
 }
 
 export default Button

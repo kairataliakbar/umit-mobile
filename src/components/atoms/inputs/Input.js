@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
+    minHeight: 50,
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 10,

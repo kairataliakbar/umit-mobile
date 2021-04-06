@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import { View, StyleSheet, Text, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import axios from 'axios'
@@ -12,7 +12,7 @@ import SigninForm from '../../components/organisms/forms/SigninForm'
 import Colors from '../../theme/colors'
 
 const Signin = ({ navigation, route }) => {
-  const initialValues = route?.params;
+  const [isLoad, setIsLoad] = useState(false)
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -21,11 +21,14 @@ const Signin = ({ navigation, route }) => {
   }, [navigation])
 
   const handleSubmit = async (data) => {
+    setIsLoad(true)
     try {
       const res = await axios.post('http://kzbusinesstries.site/login.php', data)
       await AsyncStorage.setItem('token', res.data.message.token)
+      setIsLoad(false)
       navigation.navigate('App')
     } catch (err) {
+      setIsLoad(false)
       Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
     }
   }
@@ -34,7 +37,7 @@ const Signin = ({ navigation, route }) => {
     <Container customStyle={styles.screen}>
       <H1 propStyles={styles.title}>Вход</H1>
         
-      {initialValues && (
+      {route?.params?.afterSignup && (
         <View style={styles.alert}>
           <Ionicons name="alert-circle-outline" size={26} color={Colors.third_font} />
           <Text style={styles.alertLabel}>
@@ -44,7 +47,7 @@ const Signin = ({ navigation, route }) => {
       )}
       
       <View style={styles.form}>
-        <SigninForm onSubmit={handleSubmit} defaultValues={initialValues} />
+        <SigninForm isLoad={isLoad} onSubmit={handleSubmit} />
       </View>
     </Container>
   )
@@ -83,8 +86,7 @@ Signin.propTypes = {
   }),
   route: PropTypes.shape({
     params: PropTypes.shape({
-      email: PropTypes.string,
-      password: PropTypes.string
+      afterSignup: PropTypes.bool
     })
   })
 }

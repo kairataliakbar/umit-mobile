@@ -7,8 +7,8 @@ import Button from '../../atoms/buttons/Button'
 
 import { EMAIL_PATTERN } from '../../../constants'
 
-const SigninForm = ({ onSubmit, defaultValues }) => {
-  const { control, handleSubmit, errors, reset } = useForm({ defaultValues })
+const SigninForm = ({ onSubmit, isLoad }) => {
+  const { control, handleSubmit, errors, reset } = useForm()
 
   const validEmail = (error) => {
     if (error) {
@@ -68,14 +68,14 @@ const SigninForm = ({ onSubmit, defaultValues }) => {
         defaultValue=""
         rules={{ required: true, minLength: 6 }}
       />
-      <Button onPress={handleSubmit(formSubmit)}>Войти</Button>
+      <Button load={isLoad} onPress={handleSubmit(formSubmit)}>Войти</Button>
     </>
   )
 }
 
 SigninForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  defaultValues: PropTypes.object
+  isLoad: PropTypes.bool
 }
 
 export default SigninForm
