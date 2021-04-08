@@ -1,54 +1,41 @@
-/* eslint-disable react/display-name */
 import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
-import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import PropTypes from 'prop-types'
+import { NavigationContainer } from '@react-navigation/native'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import Home from '../../screens/home'
-import Game from '../../screens/game'
+import Home from './home'
+import Profile from '../../screens/profile'
 
-import CustomHeaderButton from '../../components/atoms/buttons/CustomHeaderButton'
+import Color from '../../theme/colors'
 
-import Colors from '../../theme/colors'
+const Drawer = createDrawerNavigator()
 
-const Stack = createStackNavigator()
-
-const AppNavigation = ({ navigation }) => {
-  const navigationOptions = {
-    headerStyle: {
-      backgroundColor: Colors.secondary_bg,
-      shadowRadius: 0,
-      shadowOffset: {
-        height: 0
-      }
-    },
-    headerTintColor: Colors.third_font,
-    headerTitleStyle: {
-      fontWeight: 'bold'
-    },
-    headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item
-          title="Menu"
-          iconName="ios-menu"
-          onPress={() => navigation.toggleDrawer()}
-        />
-      </HeaderButtons>
-    )
-  }
-
+const Navigation = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} options={navigationOptions} />
-      <Stack.Screen name="Game" component={Game} options={navigationOptions} />
-    </Stack.Navigator>
+    <NavigationContainer>
+      <Drawer.Navigator
+        initialRouteName="Home"
+        drawerPosition="right"
+        drawerStyle={{
+          backgroundColor: Color.secondary_bg
+        }}
+        drawerContentOptions={{
+          inactiveTintColor: Color.primary_font,
+          activeTintColor: Color.primary_font
+        }}
+      >
+        <Drawer.Screen
+          name="Home"
+          component={Home}
+          options={{ drawerLabel: 'Главная' }}
+        />
+        <Drawer.Screen
+          name="Profile"
+          component={Profile}
+          options={{ drawerLabel: 'Профиль' }}
+        />
+      </Drawer.Navigator>
+    </NavigationContainer>
   )
 }
 
-AppNavigation.propTypes = {
-  navigation: PropTypes.shape({
-    toggleDrawer: PropTypes.func.isRequired
-  }).isRequired
-}
-
-export default AppNavigation
+export default Navigation

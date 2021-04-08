@@ -8,11 +8,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import DismissKeyboard from '../../components/atoms/DismissKeyboard'
 import Container from '../../components/atoms/Container'
 import H1 from '../../components/atoms/text/H1'
-import SigninForm from '../../components/organisms/forms/SigninForm'
+import LoginForm from '../../components/organisms/forms/LoginForm'
 
 import Colors from '../../theme/colors'
 
-const Signin = ({ navigation, route }) => {
+const Login = ({ navigation, route }) => {
   const [isLoad, setIsLoad] = useState(false)
 
   useLayoutEffect(() => {
@@ -52,7 +52,7 @@ const Signin = ({ navigation, route }) => {
           )}
           
           <View style={styles.form}>
-            <SigninForm isLoad={isLoad} onSubmit={handleSubmit} />
+            <LoginForm isLoad={isLoad} onSubmit={handleSubmit} />
           </View>
         </Container>
       </DismissKeyboard>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   }
 })
 
-Signin.propTypes = {
+Login.propTypes = {
   navigation: PropTypes.shape({
     setOptions: PropTypes.func
   }),
@@ -101,4 +101,4 @@ Signin.propTypes = {
   })
 }
 
-export default Signin
+export default Login

@@ -1,13 +1,17 @@
 import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, View } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import Navigation from './src/navigation'
+import AppNavigation from './src/navigation/app'
+import AuthNavigation from './src/navigation/auth'
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Navigation />
+      {AsyncStorage.getItem('token')
+        ? <AppNavigation />
+        : <AuthNavigation />}
       <StatusBar style="auto" />
     </View>
   )

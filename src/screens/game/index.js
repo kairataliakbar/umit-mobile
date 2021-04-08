@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react'
-import { StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 
-import Container from '../../components/atoms/Container'
 import WaitTemplate from '../../components/templates/WaitTemplate'
 import WheelFortuneTemplate from '../../components/templates/WheelFortuneTemplate'
 
@@ -32,27 +30,10 @@ const Game = ({ navigation, route }) => {
     }
   }
 
-  return (
-    <Container customStyle={styles.screen}>
-      {playersCount === 100
-        ? <WheelFortuneTemplate bet={bet} />
-        : <WaitTemplate />}
-    </Container>
-  )
+  return playersCount === 100
+    ? <WheelFortuneTemplate bet={bet} />
+    : <WaitTemplate />
 }
-
-const styles = StyleSheet.create({
-  screen: {
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  title: {
-    width: '80%',
-    maxWidth: 400,
-    textAlign: 'center',
-    marginBottom: 20
-  }
-})
 
 Game.propTypes = {
   route: PropTypes.shape({

@@ -4,7 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import PropTypes from 'prop-types'
 
-import Signup from '../../screens/signup'
+import Home from '../../screens/home'
+import Game from '../../screens/game'
 
 import CustomHeaderButton from '../../components/atoms/buttons/CustomHeaderButton'
 
@@ -12,7 +13,7 @@ import Colors from '../../theme/colors'
 
 const Stack = createStackNavigator()
 
-const SignupNavigation = ({ navigation }) => {
+const AppNavigation = ({ navigation }) => {
   const navigationOptions = {
     headerStyle: {
       backgroundColor: Colors.secondary_bg,
@@ -38,15 +39,16 @@ const SignupNavigation = ({ navigation }) => {
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Signup" component={Signup} options={navigationOptions} />
+      <Stack.Screen name="Home" component={Home} options={navigationOptions} />
+      <Stack.Screen name="Game" component={Game} options={navigationOptions} />
     </Stack.Navigator>
   )
 }
 
-SignupNavigation.propTypes = {
+AppNavigation.propTypes = {
   navigation: PropTypes.shape({
     toggleDrawer: PropTypes.func.isRequired
   }).isRequired
 }
 
-export default SignupNavigation
+export default AppNavigation

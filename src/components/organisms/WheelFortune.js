@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 import * as d3Shape from 'd3-shape'
 import PropTypes from 'prop-types'
+import randomColor from 'randomcolor'
 
 import Svg, {G, Text, TSpan, Path} from 'react-native-svg'
 
@@ -36,7 +37,6 @@ class WheelOfFortune extends Component {
   }
 
   prepareWheel() {
-    console.log(this.props)
     this.Rewards = this.props.wheelOptions.rewards
     this.RewardCount = this.Rewards.length
 
@@ -99,20 +99,7 @@ class WheelOfFortune extends Component {
   makeWheel() {
     const data = Array.from({length: this.numberOfSegments}).fill(1)
     const arcs = d3Shape.pie()(data)
-    var colors = this.props.wheelOptions.colors
-      ? this.props.wheelOptions.colors
-      : [
-          '#E07026',
-          '#E8C22E',
-          '#ABC937',
-          '#4F991D',
-          '#22AFD3',
-          '#5858D0',
-          '#7B48C8',
-          '#D843B9',
-          '#E23B80',
-          '#D82B2B'
-        ]
+    var colors = randomColor({ count: 30 })
     return arcs.map((arc, index) => {
       const instance = d3Shape
         .arc()
