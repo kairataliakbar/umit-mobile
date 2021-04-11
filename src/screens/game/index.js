@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
+import { View, Text } from 'react-native'
 
-import WaitTemplate from '../../components/templates/WaitTemplate'
-import WheelFortuneTemplate from '../../components/templates/WheelFortuneTemplate'
+import WaitTemplate from '../../components/templates/game/WaitTemplate'
 
 const Game = ({ navigation, route }) => {
-  const [playersCount, setPlayersCount] = useState(100)
   const { bet } = route.params
+  const playersCount = 100
   let timer
 
   useLayoutEffect(() => {
@@ -31,8 +31,11 @@ const Game = ({ navigation, route }) => {
   }
 
   return playersCount === 100
-    ? <WheelFortuneTemplate bet={bet} />
-    : <WaitTemplate />
+    ? (
+      <View>
+        <Text>{bet}</Text>
+      </View>
+    ) : <WaitTemplate />
 }
 
 Game.propTypes = {

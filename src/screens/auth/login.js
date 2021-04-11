@@ -34,7 +34,7 @@ const Login = ({ navigation, route }) => {
     }
   }
 
-  const Wrapper = Platform.OS === "android" ? View : KeyboardAvoidingView
+  const Wrapper = Platform.OS === 'android' ? View : KeyboardAvoidingView
 
   return (
     <Wrapper style={styles.wrapper} behavior="padding" keyboardVerticalOffset={10}>
@@ -92,7 +92,8 @@ const styles = StyleSheet.create({
 
 Login.propTypes = {
   navigation: PropTypes.shape({
-    setOptions: PropTypes.func
+    setOptions: PropTypes.func,
+    navigate: PropTypes.func
   }),
   route: PropTypes.shape({
     params: PropTypes.shape({

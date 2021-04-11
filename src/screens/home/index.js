@@ -1,43 +1,48 @@
+/* eslint-disable react/display-name */
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 
 import Container from '../../components/atoms/Container'
-import Card from '../../components/atoms/card'
-import H3 from '../../components/atoms/text/H3'
+import H1 from '../../components/atoms/text/H3'
 import Bet from '../../components/atoms/bet'
+import CustomHeaderButton from '../../components/atoms/buttons/CustomHeaderButton'
 
 import { BETS } from '../../constants'
 
 const Home = ({ navigation }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: ''
+      headerTitle: '',
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+          <Item
+            title="Exit"
+            iconName="exit-outline"
+            onPress={() => console.log('exit')}
+          />
+        </HeaderButtons>
+      )
     })
   }, [navigation])
 
-  const handleClickBet = (bet) => {
-    navigation.navigate('Game', { bet })
-  }
+  const handleClickBet = (bet) => navigation.navigate('Game', { bet })
 
   return (
     <Container customStyle={styles.screen}>
-      <Card propStyles={styles.card}>
-        <View style={styles.cardInner}>
-          <H3 propStyles={styles.cardTitle}>Выберите ставку</H3>
-          
-          <View style={styles.bets}>
-            {BETS.map((bet) => (
-              <Bet
-                key={bet}
-                bet={bet}
-                onPress={() => handleClickBet(bet)}
-                customStyle={styles.bet}
-              />
-            ))}
-          </View>
-        </View>
-      </Card>
+      <H1 propStyles={styles.title}>Выберите ставку</H1>
+      
+      <View style={styles.bets}>
+        {BETS.map((bet) => (
+          <Bet
+            key={bet}
+            bet={bet}
+            onPress={() => handleClickBet(bet)}
+            customStyle={styles.bet}
+          />
+        ))}
+      </View>
     </Container>
   )
 }
@@ -47,27 +52,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  card: {
-    width: '90%',
-    height: 400
-  },
-  cardInner: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  cardTitle: {
+  title: {
     marginBottom: 14
   },
   bets: {
-    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-around'
+    justifyContent: 'space-evenly'
   },
   bet: {
-    margin: 5
+    width: '40%',
+    marginVertical: 10
   }
 })
 

@@ -20,8 +20,7 @@ const Bet = ({ onPress, bet, customStyle }) => {
 
 const styles = StyleSheet.create({
   bet: {
-    width: 120,
-    height: 60,
+    padding: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

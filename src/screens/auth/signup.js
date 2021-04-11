@@ -35,7 +35,7 @@ const Signup = ({ navigation }) => {
     }
   }
 
-  const Wrapper = Platform.OS === "android" ? View : KeyboardAvoidingView
+  const Wrapper = Platform.OS === 'android' ? View : KeyboardAvoidingView
 
   return (
     <Wrapper style={styles.wrapper} behavior="padding" keyboardVerticalOffset={140}>

@@ -1,10 +1,10 @@
 import React from 'react'
 import { ActivityIndicator, StyleSheet } from 'react-native'
 
-import Container from '../atoms/Container'
-import H3 from '../atoms/text/H3'
+import Container from '../../atoms/Container'
+import H3 from '../../atoms/text/H3'
 
-import Colors from '../../theme/colors'
+import Colors from '../../../theme/colors'
 
 const WheelFortuneTemplate = () => {
   return (
