@@ -1,9 +1,8 @@
-import React, { useState, useLayoutEffect } from 'react'
-import { View, StyleSheet, Text, Alert, KeyboardAvoidingView, Platform } from 'react-native'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
+import { View, StyleSheet, Alert, KeyboardAvoidingView, Platform } from 'react-native'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import { Ionicons } from '@expo/vector-icons'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as SecureStore from 'expo-secure-store'
 
 import DismissKeyboard from '../../components/atoms/DismissKeyboard'
 import Container from '../../components/atoms/Container'
@@ -15,6 +14,16 @@ import Colors from '../../theme/colors'
 const Login = ({ navigation, route }) => {
   const [isLoad, setIsLoad] = useState(false)
 
+  useEffect(() => {
+    if (route?.params?.afterSignup) {
+      Alert.alert(
+        'Внимание',
+        'После регистрации, перед входом, обязательно нужно подтвердить почту',
+        [{ text: 'Хорошо' }]
+      )
+    }
+  })
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: ''
@@ -25,9 +34,9 @@ const Login = ({ navigation, route }) => {
     setIsLoad(true)
     try {
       const res = await axios.post('http://kzbusinesstries.site/login.php', data)
-      await AsyncStorage.setItem('token', res.data.message.token)
+      await SecureStore.setItemAsync('token', res.data.message.token)
       setIsLoad(false)
-      navigation.navigate('App')
+      navigation.navigate('Home')
     } catch (err) {
       setIsLoad(false)
       Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
@@ -41,16 +50,6 @@ const Login = ({ navigation, route }) => {
       <DismissKeyboard>
         <Container customStyle={styles.screen}>
           <H1 propStyles={styles.title}>Вход</H1>
-            
-          {route?.params?.afterSignup && (
-            <View style={styles.alert}>
-              <Ionicons name="alert-circle-outline" size={26} color={Colors.third_font} />
-              <Text style={styles.alertLabel}>
-                После регистрации, перед входом, обязательно нужно подтвердить почту
-              </Text>
-            </View>
-          )}
-          
           <View style={styles.form}>
             <LoginForm isLoad={isLoad} onSubmit={handleSubmit} />
           </View>

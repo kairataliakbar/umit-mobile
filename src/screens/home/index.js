@@ -3,6 +3,7 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import * as SecureStore from 'expo-secure-store'
 
 import Container from '../../components/atoms/Container'
 import H1 from '../../components/atoms/text/H3'
@@ -20,7 +21,10 @@ const Home = ({ navigation }) => {
           <Item
             title="Exit"
             iconName="exit-outline"
-            onPress={() => console.log('exit')}
+            onPress={() => {
+              SecureStore.deleteItemAsync('token')
+              navigation.navigate('Login')
+            }}
           />
         </HeaderButtons>
       )

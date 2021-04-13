@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import PropTypes from 'prop-types'
 
 import Login from '../screens/auth/login'
 import Signup from '../screens/auth/signup'
@@ -12,7 +12,7 @@ import Colors from '../theme/colors'
 
 const Stack = createStackNavigator()
 
-const AppNavigation = () => {
+const AppNavigation = ({ token }) => {
   const navigationOptions = {
     headerStyle: {
       backgroundColor: Colors.secondary_bg,
@@ -30,7 +30,7 @@ const AppNavigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {AsyncStorage.getItem('token') ? (
+        {token ? (
           <>
             <Stack.Screen
               name="Home"
@@ -60,6 +60,10 @@ const AppNavigation = () => {
       </Stack.Navigator>
     </NavigationContainer>
   )
+}
+
+AppNavigation.propTypes = {
+  token: PropTypes.string
 }
 
 export default AppNavigation
