@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState } from 'react'
 import { View, ScrollView, StyleSheet, Alert, KeyboardAvoidingView, Platform } from 'react-native'
 import PropTypes from 'prop-types'
 import axios from 'axios'
@@ -10,12 +10,6 @@ import SignupForm from '../../components/organisms/forms/SignupForm'
 
 const Signup = ({ navigation }) => {
   const [isLoad, setIsLoad] = useState(false)
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: ''
-    })
-  }, [navigation])
 
   // eslint-disable-next-line no-unused-vars
   const handleSubmit = async ({ password_confirm, ...data }) => {
@@ -72,7 +66,6 @@ const styles = StyleSheet.create({
 
 Signup.propTypes = {
   navigation: PropTypes.shape({
-    setOptions: PropTypes.func,
     navigate: PropTypes.func
   })
 }

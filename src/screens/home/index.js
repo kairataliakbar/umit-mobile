@@ -2,35 +2,14 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { HeaderButtons, Item } from 'react-navigation-header-buttons'
-import * as SecureStore from 'expo-secure-store'
 
 import Container from '../../components/atoms/Container'
 import H1 from '../../components/atoms/text/H3'
 import Bet from '../../components/atoms/bet'
-import CustomHeaderButton from '../../components/atoms/buttons/CustomHeaderButton'
 
 import { BETS } from '../../constants'
 
 const Home = ({ navigation }) => {
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: '',
-      headerRight: () => (
-        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-          <Item
-            title="Exit"
-            iconName="exit-outline"
-            onPress={() => {
-              SecureStore.deleteItemAsync('token')
-              navigation.navigate('Login')
-            }}
-          />
-        </HeaderButtons>
-      )
-    })
-  }, [navigation])
-
   const handleClickBet = (bet) => navigation.navigate('Game', { bet })
 
   return (
@@ -72,7 +51,6 @@ const styles = StyleSheet.create({
 
 Home.propTypes = {
   navigation: PropTypes.shape({
-    setOptions: PropTypes.func,
     navigate: PropTypes.func
   })
 }

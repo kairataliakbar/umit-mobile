@@ -11,7 +11,6 @@ const Game = ({ navigation, route }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: '',
       headerBackTitle: 'Назад'
     })
   }, [navigation])

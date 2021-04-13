@@ -25,13 +25,23 @@ export default function App() {
     }
 
     getTokenAsync()
-  }, [])
+  }, [token])
+
+  const handleLogin = async (newToken) => {
+    await SecureStore.setItemAsync('token', newToken)
+    setToken(newToken)
+  }
+
+  const handleLogout = async () => {
+    await SecureStore.deleteItemAsync('token')
+    setToken(null)
+  }
 
   return (
     <View style={[styles.container, isLoading && styles.center]}>
       {isLoading
         ? <ActivityIndicator size="large" color={Colors.third_font} />
-        : <AppNavigation token={token} />}
+        : <AppNavigation token={token} onLogin={handleLogin} onLogout={handleLogout} />}
       <StatusBar style="auto" barStyle="light-content" />
     </View>
   )

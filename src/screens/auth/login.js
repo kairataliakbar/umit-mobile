@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Alert, KeyboardAvoidingView, Platform } from 'react-native'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import * as SecureStore from 'expo-secure-store'
 
 import DismissKeyboard from '../../components/atoms/DismissKeyboard'
 import Container from '../../components/atoms/Container'
@@ -11,7 +10,7 @@ import LoginForm from '../../components/organisms/forms/LoginForm'
 
 import Colors from '../../theme/colors'
 
-const Login = ({ navigation, route }) => {
+const Login = ({ route, onLogin }) => {
   const [isLoad, setIsLoad] = useState(false)
 
   useEffect(() => {
@@ -24,19 +23,12 @@ const Login = ({ navigation, route }) => {
     }
   })
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: ''
-    })
-  }, [navigation])
-
   const handleSubmit = async (data) => {
     setIsLoad(true)
     try {
       const res = await axios.post('http://kzbusinesstries.site/login.php', data)
-      await SecureStore.setItemAsync('token', res.data.message.token)
+      await onLogin(res.data.message.token)
       setIsLoad(false)
-      navigation.navigate('Home')
     } catch (err) {
       setIsLoad(false)
       Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
@@ -90,15 +82,12 @@ const styles = StyleSheet.create({
 })
 
 Login.propTypes = {
-  navigation: PropTypes.shape({
-    setOptions: PropTypes.func,
-    navigate: PropTypes.func
-  }),
   route: PropTypes.shape({
     params: PropTypes.shape({
       afterSignup: PropTypes.bool
     })
-  })
+  }),
+  onLogin: PropTypes.func
 }
 
 export default Login
