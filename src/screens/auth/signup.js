@@ -17,12 +17,7 @@ const Signup = ({ navigation }) => {
     try {
       await axios.post('http://kzbusinesstries.site/register.php', data)
       setIsLoad(false)
-      navigation.navigate('Signin', {
-        screen: 'Signin',
-        params: {
-          afterSignup: true
-        }
-      })
+      navigation.navigate('Login', { afterSignup: true })
     } catch (err) {
       setIsLoad(false)
       Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])

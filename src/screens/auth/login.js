@@ -10,7 +10,7 @@ import LoginForm from '../../components/organisms/forms/LoginForm'
 
 import Colors from '../../theme/colors'
 
-const Login = ({ route, onLogin }) => {
+const Login = ({ navigation, route, onLogin }) => {
   const [isLoad, setIsLoad] = useState(false)
 
   useEffect(() => {
@@ -43,7 +43,11 @@ const Login = ({ route, onLogin }) => {
         <Container customStyle={styles.screen}>
           <H1 propStyles={styles.title}>Вход</H1>
           <View style={styles.form}>
-            <LoginForm isLoad={isLoad} onSubmit={handleSubmit} />
+            <LoginForm
+              isLoad={isLoad}
+              onSubmit={handleSubmit}
+              navigation={navigation}
+            />
           </View>
         </Container>
       </DismissKeyboard>
@@ -82,6 +86,7 @@ const styles = StyleSheet.create({
 })
 
 Login.propTypes = {
+  navigation: PropTypes.object,
   route: PropTypes.shape({
     params: PropTypes.shape({
       afterSignup: PropTypes.bool

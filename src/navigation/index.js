@@ -18,6 +18,8 @@ const Stack = createStackNavigator()
 const AppNavigation = ({ token, onLogin, onLogout }) => {
   const navigationOptions = {
     headerTitle: '',
+    headerBackTitle: 'Назад',
+    headerTintColor: Colors.third_font,
     headerStyle: {
       backgroundColor: Colors.secondary_bg,
       shadowRadius: 0,

@@ -4,14 +4,19 @@ import PropTypes from 'prop-types'
 
 import Colors from '../../../theme/colors'
 
-const Button = ({ label, children, onPress, load }) => {
-  return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      {load
-        ? <ActivityIndicator size="small" color={Colors.third_font} />
-        : <Text style={styles.label}>{label || children}</Text>}
-    </TouchableOpacity>
-  )
+const Button = ({ label, children, onPress, load, type = 'default' }) => {
+  return type === 'link'
+    ? (
+      <TouchableOpacity style={styles.link} onPress={onPress}>
+        <Text style={[styles.label, styles.linkLabel]}>{label || children}</Text>
+      </TouchableOpacity>
+    ) : (
+      <TouchableOpacity style={styles.button} onPress={onPress}>
+        {load
+          ? <ActivityIndicator size="small" color={Colors.third_font} />
+          : <Text style={styles.label}>{label || children}</Text>}
+      </TouchableOpacity>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -28,9 +33,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+  link: {
+    backgroundColor: 'transparent'
+  },
   label: {
     fontSize: 20,
     color: Colors.third_font
+  },
+  linkLabel: {
+    textDecorationLine: 'underline'
   }
 })
 
@@ -38,7 +49,8 @@ Button.propTypes = {
   label: PropTypes.string,
   children: PropTypes.string,
   onPress: PropTypes.func,
-  load: PropTypes.bool
+  load: PropTypes.bool,
+  type: PropTypes.oneOf(['link', 'default'])
 }
 
 export default Button

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { View, StyleSheet } from 'react-native'
 import { useForm, Controller } from 'react-hook-form'
 
 import Input from '../../atoms/inputs/Input'
@@ -7,7 +8,7 @@ import Button from '../../atoms/buttons/Button'
 
 import { EMAIL_PATTERN } from '../../../constants'
 
-const LoginForm = ({ onSubmit, isLoad }) => {
+const LoginForm = ({ onSubmit, isLoad, navigation }) => {
   const { control, handleSubmit, errors, reset } = useForm()
 
   const validEmail = (error) => {
@@ -30,13 +31,15 @@ const LoginForm = ({ onSubmit, isLoad }) => {
     return null
   }
 
-  const formSubmit = async (data) => {
+  const onFormSubmit = async (data) => {
     await onSubmit(data)
     reset()
   }
 
+  const onToRegister = () => navigation.navigate('Signup')
+
   return (
-    <>
+    <View style={styles.form}>
       <Controller
         control={control}
         render={({ onChange, value }) => (
@@ -70,14 +73,24 @@ const LoginForm = ({ onSubmit, isLoad }) => {
         defaultValue=""
         rules={{ required: true, minLength: 6 }}
       />
-      <Button load={isLoad} onPress={handleSubmit(formSubmit)}>Войти</Button>
-    </>
+      <Button load={isLoad} onPress={handleSubmit(onFormSubmit)}>Войти</Button>
+      <Button type="link" onPress={onToRegister}>Зарегистрироваться</Button>
+    </View>
   )
 }
 
+const styles = StyleSheet.create({
+  form: {
+    alignItems: 'center'
+  }
+})
+
 LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  isLoad: PropTypes.bool
+  isLoad: PropTypes.bool,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func
+  })
 }
 
 export default LoginForm
