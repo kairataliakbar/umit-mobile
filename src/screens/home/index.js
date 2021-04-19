@@ -1,31 +1,55 @@
-/* eslint-disable react/display-name */
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { ActivityIndicator, Alert, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
+import axios from 'axios'
+import * as SecureStore from 'expo-secure-store'
 
 import Container from '../../components/atoms/Container'
 import H1 from '../../components/atoms/text/H3'
 import Bet from '../../components/atoms/bet'
 
-import { BETS } from '../../constants'
+import Colors from '../../theme/colors'
 
 const Home = ({ navigation }) => {
-  const handleClickBet = (bet) => navigation.navigate('Game', { bet })
+  const [isLoading, setIsLoading] = useState(false)
+  const [bets, setBets] = useState([])
+
+  const fetchBets = async () => {
+    setIsLoading(true)
+    try {
+      const token = await SecureStore.getItemAsync('token')
+      const headers = { headers: { Authorization: `Bearer ${token}` } }
+      const res = await axios.get('http://kzbusinesstries.site/rooms.php', headers)
+      setBets(res.data.message)
+      setIsLoading(false)
+    } catch (error) {
+      Alert.alert('Ошибка', error.message, [{ text: 'Окей' }])
+    }
+  }
+
+  useEffect(() => {
+    if (bets.length === 0) fetchBets()
+  }, [bets])
+
+  const handleClickBet = (betId) => navigation.navigate('Game', { betId })
 
   return (
     <Container customStyle={styles.screen}>
-      <H1 propStyles={styles.title}>Выберите ставку</H1>
-      
-      <View style={styles.bets}>
-        {BETS.map((bet) => (
-          <Bet
-            key={bet}
-            bet={bet}
-            onPress={() => handleClickBet(bet)}
-            customStyle={styles.bet}
-          />
-        ))}
-      </View>
+      {isLoading ? <ActivityIndicator size="large" color={Colors.primary_font} /> : (
+        <>
+          <H1 propStyles={styles.title}>Выберите ставку</H1>
+          <View style={styles.bets}>
+            {bets.map((bet) => (
+              <Bet
+                key={bet.id}
+                bet={bet.bet}
+                onPress={() => handleClickBet(bet.id)}
+                customStyle={styles.bet}
+              />
+            ))}
+          </View>
+        </>
+      )}
     </Container>
   )
 }

@@ -17,10 +17,10 @@ export default function App() {
       let userToken
       try {
         userToken = await SecureStore.getItemAsync('token')
+        setToken(userToken)
       } catch (e) {
         console.log(e)
       }
-      setToken(userToken)
       setIsLoading(false)
     }
 
