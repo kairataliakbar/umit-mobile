@@ -1,7 +1,10 @@
+/* eslint-disable react/display-name */
 import React, { useEffect, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
-import { View, Text } from 'react-native'
+import { View, Text, Alert } from 'react-native'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 
+import CustomHeaderButton from '../../components/atoms/buttons/CustomHeaderButton'
 import WaitTemplate from '../../components/templates/game/WaitTemplate'
 
 const Game = ({ navigation, route }) => {
@@ -11,7 +14,33 @@ const Game = ({ navigation, route }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerBackTitle: 'Назад'
+      headerLeft: () => {},
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+          <Item
+            title="Exit room"
+            iconName="exit-outline"
+            onPress={() => {
+              Alert.alert(
+                'Выйти из комнаты?',
+                'Вы действительно хотите выйти из комнаты?',
+                [
+                  {
+                    text: 'Да',
+                    onPress: () => console.log('Да'),
+                    style: 'destructive'
+                  },
+                  {
+                    text: 'Нет',
+                    onPress: () => console.log('Нет'),
+                    style: 'default'
+                  }
+                ]
+              )
+            }}
+          />
+        </HeaderButtons>
+      )
     })
   }, [navigation])
 

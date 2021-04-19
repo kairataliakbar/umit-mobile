@@ -6,7 +6,7 @@ import H3 from '../../atoms/text/H3'
 
 import Colors from '../../../theme/colors'
 
-const WheelFortuneTemplate = () => {
+const WheelTemplate = () => {
   return (
     <Container customStyle={styles.screen}>
       <H3 propStyles={styles.title}>Ожидание других игроков</H3>
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default WheelFortuneTemplate
+export default WheelTemplate

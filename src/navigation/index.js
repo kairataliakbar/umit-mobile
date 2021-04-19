@@ -41,6 +41,8 @@ const AppNavigation = ({ token, onLogin, onLogout }) => {
     )
   }
 
+  const HomeComponent = (props) => <Home onLogout={onLogout} {...props} />
+
   const LoginComponent = (props) => <Login onLogin={onLogin} {...props} />
 
   return (
@@ -50,7 +52,7 @@ const AppNavigation = ({ token, onLogin, onLogout }) => {
           <>
             <Stack.Screen
               name="Home"
-              component={Home}
+              component={HomeComponent}
               options={{
                 ...navigationOptions,
                 ...homeNavigationOptions

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ActivityIndicator, Alert, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store'
@@ -10,7 +10,7 @@ import Bet from '../../components/atoms/bet'
 
 import Colors from '../../theme/colors'
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, onLogout }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [bets, setBets] = useState([])
 
@@ -23,7 +23,7 @@ const Home = ({ navigation }) => {
       setBets(res.data.message)
       setIsLoading(false)
     } catch (error) {
-      Alert.alert('Ошибка', error.message, [{ text: 'Окей' }])
+      onLogout()
     }
   }
 
@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
 Home.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func
-  })
+  }),
+  onLogout: PropTypes.func
 }
 
 export default Home
