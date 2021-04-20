@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { ActivityIndicator, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import axios from 'axios'
-import * as SecureStore from 'expo-secure-store'
 
 import Container from '../../components/atoms/Container'
 import H1 from '../../components/atoms/text/H3'
@@ -17,9 +16,7 @@ const Home = ({ navigation, onLogout }) => {
   const fetchBets = async () => {
     setIsLoading(true)
     try {
-      const token = await SecureStore.getItemAsync('token')
-      const headers = { headers: { Authorization: `Bearer ${token}` } }
-      const res = await axios.get('http://kzbusinesstries.site/rooms.php', headers)
+      const res = await axios.get('/rooms.php')
       setBets(res.data.message)
       setIsLoading(false)
     } catch (error) {
@@ -31,7 +28,20 @@ const Home = ({ navigation, onLogout }) => {
     if (bets.length === 0) fetchBets()
   }, [bets])
 
-  const handleClickBet = (betId) => navigation.navigate('Game', { betId })
+  const handleClickBet = async (bet) => {
+    try {
+      await axios.post(
+        '/user-room.php',
+        {
+          user_id: 17,
+          room_id: bet.id
+        }
+      )
+      navigation.navigate('Game', { bet })
+    } catch (err) {
+      Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
+    }
+  }
 
   return (
     <Container customStyle={styles.screen}>
@@ -43,7 +53,7 @@ const Home = ({ navigation, onLogout }) => {
               <Bet
                 key={bet.id}
                 bet={bet.bet}
-                onPress={() => handleClickBet(bet.id)}
+                onPress={() => handleClickBet(bet)}
                 customStyle={styles.bet}
               />
             ))}

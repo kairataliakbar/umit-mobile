@@ -1,16 +1,14 @@
 /* eslint-disable react/display-name */
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import { View, Text, Alert } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import axios from 'axios'
 
 import CustomHeaderButton from '../../components/atoms/buttons/CustomHeaderButton'
-import WaitTemplate from '../../components/templates/game/WaitTemplate'
 
 const Game = ({ navigation, route }) => {
   const { bet } = route.params
-  const playersCount = 100
-  let timer
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -27,12 +25,11 @@ const Game = ({ navigation, route }) => {
                 [
                   {
                     text: 'Да',
-                    onPress: () => console.log('Да'),
+                    onPress: () => handleLogoutRoom(),
                     style: 'destructive'
                   },
                   {
                     text: 'Нет',
-                    onPress: () => console.log('Нет'),
                     style: 'default'
                   }
                 ]
@@ -44,36 +41,37 @@ const Game = ({ navigation, route }) => {
     })
   }, [navigation])
 
-  useEffect(() => handleTimer(), [])
-
-  const handleTimer = () => {
-    timer = setTimeout(getPlayersCount, 5000)
-  }
-
-  const getPlayersCount = () => {
-    if (playersCount !== 100) {
-      handleTimer()
-    } else {
-      clearTimeout(timer)
+  const handleLogoutRoom = async () => {
+    try {
+      const params = `user_id=${17}&room_id=${bet.id}`
+      await axios.delete(`/user-room.php?${params}`)
+      navigation.navigate('Home')
+    } catch (err) {
+      Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
     }
   }
 
-  return playersCount === 100
-    ? (
-      <View>
-        <Text>{bet}</Text>
-      </View>
-    ) : <WaitTemplate />
+  return (
+    <View>
+      <Text>{bet.name}</Text>
+      <Text>{bet.bet}</Text>
+    </View>
+  )
 }
 
 Game.propTypes = {
   route: PropTypes.shape({
     params: PropTypes.shape({
-      bet: PropTypes.number
+      bet: PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        bet: PropTypes.number
+      })
     })
   }),
   navigation: PropTypes.shape({
-    setOptions: PropTypes.func
+    setOptions: PropTypes.func,
+    navigate: PropTypes.func
   })
 }
 

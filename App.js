@@ -1,10 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, View, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, ActivityIndicator, Alert } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
+import axios from 'axios'
 
 import AppNavigation from './src/navigation'
 import Colors from './src/theme/colors'
+
+axios.defaults.baseURL = 'http://kzbusinesstries.site'
+axios.interceptors.request.use(
+  async (config) => {
+    if (!config.headers.Authorization) {
+      const token = await SecureStore.getItemAsync('token')
+
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+      }
+    }
+
+    return config
+  },
+  error => Alert.alert('Error', error.message)
+)
 
 export default function App() {
   const [token, setToken] = useState(null)

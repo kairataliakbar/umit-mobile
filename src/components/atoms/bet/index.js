@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 
 Bet.propTypes = {
   onPress: PropTypes.func.isRequired,
-  bet: PropTypes.number,
+  bet: PropTypes.string,
   customStyle: PropTypes.object
 }
 

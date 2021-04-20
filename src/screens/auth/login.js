@@ -26,7 +26,7 @@ const Login = ({ navigation, route, onLogin }) => {
   const handleSubmit = async (data) => {
     setIsLoad(true)
     try {
-      const res = await axios.post('http://kzbusinesstries.site/login.php', data)
+      const res = await axios.post('/login.php', data)
       await onLogin(res.data.message.token)
       setIsLoad(false)
     } catch (err) {
