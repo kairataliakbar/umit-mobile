@@ -30,14 +30,14 @@ const Home = ({ navigation, onLogout }) => {
 
   const handleClickBet = async (bet) => {
     try {
-      await axios.post(
+      const res = await axios.post(
         '/user-room.php',
         {
           user_id: 17,
           room_id: bet.id
         }
       )
-      navigation.navigate('Game', { bet })
+      navigation.navigate('Game', { bet, sessionId: res.data.message.session_id })
     } catch (err) {
       Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
     }

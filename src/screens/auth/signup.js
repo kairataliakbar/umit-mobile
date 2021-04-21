@@ -15,7 +15,7 @@ const Signup = ({ navigation }) => {
   const handleSubmit = async ({ password_confirm, ...data }) => {
     setIsLoad(true)
     try {
-      await axios.post('http://kzbusinesstries.site/register.php', data)
+      await axios.post('/register.php', data)
       setIsLoad(false)
       navigation.navigate('Login', { afterSignup: true })
     } catch (err) {

@@ -6,7 +6,7 @@ import H3 from '../../atoms/text/H3'
 
 import Colors from '../../../theme/colors'
 
-const WheelTemplate = () => {
+const Wait = () => {
   return (
     <Container customStyle={styles.screen}>
       <H3 propStyles={styles.title}>Ожидание других игроков</H3>
@@ -18,14 +18,14 @@ const WheelTemplate = () => {
 const styles = StyleSheet.create({
   screen: {
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width: '80%',
+    maxWidth: 400
   },
   title: {
-    width: '80%',
-    maxWidth: 400,
     textAlign: 'center',
-    marginBottom: 20
+    marginBottom: 30
   }
 })
 
-export default WheelTemplate
+export default Wait
