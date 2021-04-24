@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { View, StyleSheet, Alert, KeyboardAvoidingView, Platform } from 'react-native'
 import PropTypes from 'prop-types'
 import axios from 'axios'
@@ -9,8 +9,11 @@ import H1 from '../../components/atoms/text/H1'
 import LoginForm from '../../components/organisms/forms/LoginForm'
 
 import Colors from '../../theme/colors'
+import AuthContext from '../../theme/AuthContext'
 
-const Login = ({ navigation, route, onLogin }) => {
+const Login = ({ navigation, route }) => {
+  const { onLogin } = useContext(AuthContext)
+
   const [isLoad, setIsLoad] = useState(false)
 
   useEffect(() => {
@@ -27,7 +30,7 @@ const Login = ({ navigation, route, onLogin }) => {
     setIsLoad(true)
     try {
       const res = await axios.post('/login.php', data)
-      await onLogin(res.data.message.token)
+      await onLogin(res.data.message.token, res.data.message.user_id)
       setIsLoad(false)
     } catch (err) {
       setIsLoad(false)
@@ -91,8 +94,7 @@ Login.propTypes = {
     params: PropTypes.shape({
       afterSignup: PropTypes.bool
     })
-  }),
-  onLogin: PropTypes.func
+  })
 }
 
 export default Login

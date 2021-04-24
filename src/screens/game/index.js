@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { useLayoutEffect, useEffect, useState } from 'react'
+import React, { useLayoutEffect, useEffect, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Alert, StyleSheet } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -9,10 +9,14 @@ import Container from '../../components/atoms/Container'
 import CustomHeaderButton from '../../components/atoms/buttons/CustomHeaderButton'
 import Info from '../../components/templates/game/Info'
 import Wait from '../../components/templates/game/Wait'
+import AuthContext from '../../theme/AuthContext'
 
 const Game = ({ navigation, route }) => {
-  // const { bet, sessionId } = route.params
-  // const [winner, setWinner] = useState(null)
+  const { bet, sessionId } = route.params
+  const { userId } = useContext(AuthContext)
+
+  const [winner, setWinner] = useState(null)
+
   let timer
 
   useLayoutEffect(() => {
@@ -30,7 +34,7 @@ const Game = ({ navigation, route }) => {
                 [
                   {
                     text: 'Да',
-                    onPress: () => handleLogoutRoom(),
+                    onPress: () => onLogoutRoom(),
                     style: 'destructive'
                   },
                   { text: 'Нет', style: 'default' }
@@ -43,37 +47,32 @@ const Game = ({ navigation, route }) => {
     })
   }, [navigation])
 
-  // useEffect(() => handleTimer(), [])
+  useEffect(() => startTimer(), [])
 
-  // const startTimer = () => {
-  //   timer = setTimeout(() => {
-      
-  //   }, 3000)
-  // }
+  useEffect(() => console.log(winner, 'winner'), [winner])
 
-  // const getWinner = async () => {
-  //   if (winner?.start_timer) {
-  //     clearTimeout(timer)
-  //     console.log(res)
-  //   } else {
-  //     handleTimer()
-  //   }
-  //   const res = await axios.post('/winner.php', { session_id: sessionId })
-  //   setWinner(res.data.message)
-  // }
+  const startTimer = () => {
+    timer = setTimeout(() => {
+      getWinner()
+      if (winner?.start_time) clearTimer()
+    }, 3000)
+  }
 
-  // const handleGetWinner = async () => {
-  //   try {
-  //     const res = await axios.post('/winner.php', { session_id: sessionId })
-  //     setWinner(res.data.message)
-  //   } catch (err) {
-  //     Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
-  //   }
-  // }
-
-  const handleLogoutRoom = async () => {
+  const getWinner = async () => {
+    console.log('timer')
     try {
-      const params = `user_id=${17}&room_id=${bet.id}`
+      const res = await axios.post('/winner.php', { session_id: sessionId })
+      setWinner(res.data.message)
+    } catch (err) {
+      Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
+    }
+  }
+
+  const clearTimer = () => clearTimeout(timer)
+
+  const onLogoutRoom = async () => {
+    try {
+      const params = `user_id=${userId}&room_id=${bet.id}`
       await axios.delete(`/user-room.php?${params}`)
       clearTimeout(timer)
       navigation.navigate('Home')

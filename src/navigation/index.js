@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import PropTypes from 'prop-types'
@@ -12,10 +12,13 @@ import Game from '../screens/game'
 
 import CustomHeaderButton from '../components/atoms/buttons/CustomHeaderButton'
 import Colors from '../theme/colors'
+import AuthContext from '../theme/AuthContext'
 
 const Stack = createStackNavigator()
 
-const AppNavigation = ({ token, onLogin, onLogout }) => {
+const AppNavigation = ({ token }) => {
+  const { onLogout } = useContext(AuthContext)
+
   const navigationOptions = {
     headerTitle: '',
     headerBackTitle: 'Назад',
@@ -41,10 +44,6 @@ const AppNavigation = ({ token, onLogin, onLogout }) => {
     )
   }
 
-  const HomeComponent = (props) => <Home onLogout={onLogout} {...props} />
-
-  const LoginComponent = (props) => <Login onLogin={onLogin} {...props} />
-
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -52,7 +51,7 @@ const AppNavigation = ({ token, onLogin, onLogout }) => {
           <>
             <Stack.Screen
               name="Home"
-              component={HomeComponent}
+              component={Home}
               options={{
                 ...navigationOptions,
                 ...homeNavigationOptions
@@ -68,7 +67,7 @@ const AppNavigation = ({ token, onLogin, onLogout }) => {
           <>
             <Stack.Screen
               name="Login"
-              component={LoginComponent}
+              component={Login}
               options={navigationOptions}
             />
             <Stack.Screen
@@ -84,9 +83,7 @@ const AppNavigation = ({ token, onLogin, onLogout }) => {
 }
 
 AppNavigation.propTypes = {
-  token: PropTypes.string,
-  onLogin: PropTypes.func,
-  onLogout: PropTypes.func
+  token: PropTypes.string
 }
 
 export default AppNavigation

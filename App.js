@@ -6,6 +6,7 @@ import axios from 'axios'
 
 import AppNavigation from './src/navigation'
 import Colors from './src/theme/colors'
+import AuthContext from './src/theme/AuthContext'
 
 axios.defaults.baseURL = 'http://kzbusinesstries.site'
 axios.interceptors.request.use(
@@ -25,6 +26,7 @@ axios.interceptors.request.use(
 
 export default function App() {
   const [token, setToken] = useState(null)
+  const [userId, setUserId] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
@@ -44,8 +46,9 @@ export default function App() {
     getTokenAsync()
   }, [token])
 
-  const handleLogin = async (newToken) => {
+  const handleLogin = async (newToken, newUserId) => {
     await SecureStore.setItemAsync('token', newToken)
+    setUserId(newUserId)
     setToken(newToken)
   }
 
@@ -55,12 +58,20 @@ export default function App() {
   }
 
   return (
-    <View style={[styles.container, isLoading && styles.center]}>
-      {isLoading
-        ? <ActivityIndicator size="large" color={Colors.third_font} />
-        : <AppNavigation token={token} onLogin={handleLogin} onLogout={handleLogout} />}
-      <StatusBar style="auto" barStyle="light-content" />
-    </View>
+    <AuthContext.Provider
+      value={{
+        userId,
+        onLogin: handleLogin,
+        onLogout: handleLogout
+      }}
+    >
+      <View style={[styles.container, isLoading && styles.center]}>
+        {isLoading
+          ? <ActivityIndicator size="large" color={Colors.third_font} />
+          : <AppNavigation token={token} />}
+        <StatusBar style="auto" barStyle="light-content" />
+      </View>
+    </AuthContext.Provider>
   )
 }
 

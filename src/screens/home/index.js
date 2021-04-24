@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { ActivityIndicator, StyleSheet, View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import axios from 'axios'
@@ -8,8 +8,11 @@ import H1 from '../../components/atoms/text/H3'
 import Bet from '../../components/atoms/bet'
 
 import Colors from '../../theme/colors'
+import AuthContext from '../../theme/AuthContext'
 
-const Home = ({ navigation, onLogout }) => {
+const Home = ({ navigation }) => {
+  const { userId, onLogout } = useContext(AuthContext)
+
   const [isLoading, setIsLoading] = useState(false)
   const [bets, setBets] = useState([])
 
@@ -29,11 +32,12 @@ const Home = ({ navigation, onLogout }) => {
   }, [bets])
 
   const handleClickBet = async (bet) => {
+    console.log(userId, bet.id)
     try {
       const res = await axios.post(
         '/user-room.php',
         {
-          user_id: 17,
+          user_id: userId,
           room_id: bet.id
         }
       )
@@ -86,8 +90,7 @@ const styles = StyleSheet.create({
 Home.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func
-  }),
-  onLogout: PropTypes.func
+  })
 }
 
 export default Home
