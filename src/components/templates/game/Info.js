@@ -4,12 +4,16 @@ import PropTypes from 'prop-types'
 
 import Colors from '../../../theme/colors'
 
-const Info = ({ bet }) => {
+const Info = ({ bet, countPlayers }) => {
   return (
     <View style={styles.info}>
       <View style={styles.infoRow}>
         <Text style={styles.infoText}>Ставка:</Text>
         <Text style={styles.infoText}>{bet} тг.</Text>
+      </View>
+      <View style={styles.infoRow}>
+        <Text style={styles.infoText}>Количество играков:</Text>
+        <Text style={styles.infoText}>{countPlayers}</Text>
       </View>
     </View>
   )
@@ -22,7 +26,8 @@ const styles = StyleSheet.create({
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'space-between',
+    paddingVertical: 5
   },
   infoText: {
     fontSize: 18,
@@ -31,7 +36,8 @@ const styles = StyleSheet.create({
 })
 
 Info.propTypes = {
-  bet: PropTypes.string
+  bet: PropTypes.string,
+  countPlayers: PropTypes.string
 }
 
 export default Info

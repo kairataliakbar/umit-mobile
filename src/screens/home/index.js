@@ -32,7 +32,6 @@ const Home = ({ navigation }) => {
   }, [bets])
 
   const handleClickBet = async (bet) => {
-    console.log(userId, bet.id)
     try {
       const res = await axios.post(
         '/user-room.php',
