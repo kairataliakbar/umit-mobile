@@ -63,7 +63,6 @@ const Game = ({ navigation, route }) => {
   const getPlayers = async () => {
     try {
       const res = await axios.get(`/user-room.php?room_id=${bet.id}`)
-      console.log(res.data.message.users, 'get players')
       setPlayers(res.data.message.users)
     } catch (err) {
       Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
@@ -73,15 +72,16 @@ const Game = ({ navigation, route }) => {
   const getWinner = async () => {
     try {
       const res = await axios.post('/winner.php', { session_id: sessionId })
-      setWinner(res.data.message.game_session)
-      console.log('get winner')
-      if (winner?.start_time) {
-        console.log('clear timer')
+      if (res.data.message.game_session) {
+        console.log(res.data.message, 'clear timer')
+        setWinner(res.data.message.game_session)
         clearTimeout(timer)
       } else {
+        console.log('start timer try')
         startTimer()
       }
     } catch (err) {
+      console.log('start timer catch')
       startTimer()
     }
   }
@@ -95,7 +95,13 @@ const Game = ({ navigation, route }) => {
     await getWinner()
   }
 
-  const onStartGame = () => console.log('start')
+  const onStartGame = async () => {
+    if (!winner.winner_user_id) {
+      await getWinner()
+    }
+    console.log(winner)
+    console.log(winner.winner_user_id, 'winner')
+  }
 
   const onLogoutRoom = async () => {
     try {
@@ -108,7 +114,6 @@ const Game = ({ navigation, route }) => {
   }
 
   const renderGame = useMemo(() => {
-    console.log('render game', winner?.start_time)
     if (winner?.start_time && winner?.start_time === new Date()) {
       return <Drum />
     } else if (winner?.start_time) {

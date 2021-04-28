@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
+import moment from 'moment'
 
 import Colors from '../../../theme/colors'
 
 const Timer = ({ end, onEndTimer }) => {
   const [timer, setTimer] = useState()
-  const endDate = new Date(end).getTime()
   let interval
 
   useEffect(() => {
@@ -14,24 +14,26 @@ const Timer = ({ end, onEndTimer }) => {
     return () => {
       console.log('destroy')
     }
-  })
+  }, [])
 
   const startTimer = () => {
-    interval = setInterval(onTimer(), 1000)
+    interval = setInterval(() => onTimer(), 1000)
   }
 
   const onTimer = () => {
-    const nowDate = new Date().getTime()
-    const distance = endDate - nowDate
+    const currentDate = moment()
+    const distance = moment(end).diff(currentDate, 'second')
+    console.log(distance, 'distance')
+    // let days = Math.floor(distance / (1000 * 60 * 60 * 24))
+    // let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+    // let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+    // let seconds = Math.floor((distance % (1000 * 60)) / 1000)
 
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24))
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000)
+    // setTimer(`${days}дней : ${hours}час : ${minutes}мин : ${seconds}сек`)
+    setTimer(distance)
 
-    setTimer(`${days}дней, ${hours}часов, ${minutes}минут, ${seconds}секунд`)
-
-    if (distance < 0) {
+    if (distance <= 0) {
+      console.log('clear interval')
       clearInterval(interval)
       setTimer('Игра началась')
       onEndTimer()
@@ -40,6 +42,7 @@ const Timer = ({ end, onEndTimer }) => {
 
   return (
     <View style={styles.timerContainer}>
+      <Text style={styles.timerLabel}>Игра начнется через</Text>
       <Text style={styles.timerLabel}>{timer}</Text>
     </View>
   )
