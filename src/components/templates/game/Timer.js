@@ -11,9 +11,7 @@ const Timer = ({ end, onEndTimer }) => {
 
   useEffect(() => {
     startTimer()
-    return () => {
-      console.log('destroy')
-    }
+    return () => {}
   }, [])
 
   const startTimer = () => {
@@ -23,7 +21,6 @@ const Timer = ({ end, onEndTimer }) => {
   const onTimer = () => {
     const currentDate = moment()
     const distance = moment(end).diff(currentDate, 'second')
-    console.log(distance, 'distance')
     // let days = Math.floor(distance / (1000 * 60 * 60 * 24))
     // let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
     // let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
@@ -33,7 +30,6 @@ const Timer = ({ end, onEndTimer }) => {
     setTimer(distance)
 
     if (distance <= 0) {
-      console.log('clear interval')
       clearInterval(interval)
       setTimer('Игра началась')
       onEndTimer()

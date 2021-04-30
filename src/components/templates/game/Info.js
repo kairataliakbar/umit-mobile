@@ -36,8 +36,14 @@ const styles = StyleSheet.create({
 })
 
 Info.propTypes = {
-  bet: PropTypes.string,
-  countPlayers: PropTypes.string
+  bet: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]),
+  countPlayers: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ])
 }
 
 export default Info

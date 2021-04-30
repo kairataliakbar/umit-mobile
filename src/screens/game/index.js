@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { useLayoutEffect, useEffect, useState, useContext, useMemo } from 'react'
+import React, { useRef, useEffect, useContext, useMemo, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Alert, StyleSheet } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -17,8 +17,9 @@ const Game = ({ navigation, route }) => {
   const { bet, sessionId } = route.params
   const { userId } = useContext(AuthContext)
 
-  const [winner, setWinner] = useState(null)
-  const [players, setPlayers] = useState([])
+  const players = useRef([])
+  const winner = useRef(null)
+  const startTime = useRef(null)
 
   let timer
 
@@ -26,7 +27,7 @@ const Game = ({ navigation, route }) => {
     navigation.setOptions({
       headerLeft: () => {},
       headerRight: () => {
-        if (winner?.start_time) return
+        if (startTime.current) return
         return (
           <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item
@@ -54,16 +55,29 @@ const Game = ({ navigation, route }) => {
   }, [navigation, winner])
 
   useEffect(() => {
-    onStartPrevGame()
+    timer = setInterval(() => onStartPrevGame(), 3000)
+
     return () => {
-      console.log('destroy')
+      clearInterval(timer)
+      startTime.current = null
+      players.current = null
+      winner.current = null
     }
   }, [])
 
   const getPlayers = async () => {
     try {
       const res = await axios.get(`/user-room.php?room_id=${bet.id}`)
-      setPlayers(res.data.message.users)
+      players.current = res.data.message.users
+    } catch (err) {
+      Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
+    }
+  }
+
+  const getStartTime = async () => {
+    try {
+      const res = await axios.post('/winner.php', { session_id: sessionId })
+      startTime.current = res.data.message.game_session.start_time
     } catch (err) {
       Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
     }
@@ -72,35 +86,24 @@ const Game = ({ navigation, route }) => {
   const getWinner = async () => {
     try {
       const res = await axios.post('/winner.php', { session_id: sessionId })
-      if (res.data.message.game_session) {
-        console.log(res.data.message, 'clear timer')
-        setWinner(res.data.message.game_session)
-        clearTimeout(timer)
-      } else {
-        console.log('start timer try')
-        startTimer()
-      }
+      winner.current = res.data.message.game_session.winner_user_id
     } catch (err) {
-      console.log('start timer catch')
-      startTimer()
+      Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
     }
-  }
-
-  const startTimer = () => {
-    timer = setTimeout(() => onStartPrevGame(), 3000)
   }
 
   const onStartPrevGame = async () => {
+    console.log(startTime.current, players.current.length)
     await getPlayers()
-    await getWinner()
+    if (!startTime.current && players.current.length >= 3) {
+      await getStartTime()
+    }
   }
 
   const onStartGame = async () => {
-    if (!winner.winner_user_id) {
-      await getWinner()
-    }
-    console.log(winner)
-    console.log(winner.winner_user_id, 'winner')
+    clearInterval(timer)
+    await getWinner()
+    console.log(winner.current)
   }
 
   const onLogoutRoom = async () => {
@@ -114,18 +117,18 @@ const Game = ({ navigation, route }) => {
   }
 
   const renderGame = useMemo(() => {
-    if (winner?.start_time && winner?.start_time === new Date()) {
+    if (startTime.current && winner.current) {
       return <Drum />
-    } else if (winner?.start_time) {
-      return <Timer end={winner.start_time} onEndTimer={onStartGame} />
+    } else if (startTime.current && players.current.length >= 3) {
+      return <Timer end={startTime.current} onEndTimer={onStartGame} />
     } else {
       return <Wait />
     }
-  }, [winner])
+  }, [startTime, winner])
 
   return (
     <Container customStyle={styles.screen}>
-      <Info bet={bet.bet} countPlayers={players.length} />
+      <Info bet={bet.bet} countPlayers={players.current.length} />
       {renderGame}
     </Container>
   )
