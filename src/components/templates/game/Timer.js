@@ -20,16 +20,12 @@ const Timer = ({ end, onEndTimer }) => {
 
   const onTimer = () => {
     const currentDate = moment()
-    const distance = moment(end).diff(currentDate, 'second')
-    // let days = Math.floor(distance / (1000 * 60 * 60 * 24))
-    // let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-    // let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-    // let seconds = Math.floor((distance % (1000 * 60)) / 1000)
+    const seconds = moment(end).diff(currentDate, 'second')
+    const timeDistance = moment.utc(seconds * 1000).format('HH:mm:ss')
 
-    // setTimer(`${days}дней : ${hours}час : ${minutes}мин : ${seconds}сек`)
-    setTimer(distance)
+    setTimer(timeDistance)
 
-    if (distance <= 0) {
+    if (seconds <= 0) {
       clearInterval(interval)
       setTimer('Игра началась')
       onEndTimer()
@@ -52,7 +48,8 @@ const styles = StyleSheet.create({
   },
   timerLabel: {
     color: Colors.primary_font,
-    fontSize: 20
+    fontSize: 20,
+    marginVertical: 5
   }
 })
 
