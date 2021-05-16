@@ -29,6 +29,8 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     if (bets.length === 0) fetchBets()
+
+    return () => {}
   }, [bets])
 
   const handleClickBet = async (bet) => {
