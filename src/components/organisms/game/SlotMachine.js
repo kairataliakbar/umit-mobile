@@ -1,46 +1,73 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, Text, StyleSheet, Animated } from 'react-native'
 import PropTypes from 'prop-types'
 
-const SlotMachine = (props) => {
-  const { players } = props
+const getRandomNumber = (min, max) => {
+  const minNum = Math.ceil(min)
+  const maxNum = Math.floor(max)
+  return Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum
+}
+
+const SlotMachine = ({ players, winner }) => {
+  const [value, setValue] = useState(0)
+
+  useEffect(() => {
+    let timer
+    const startTimer = () => {
+      timer = setInterval(() => {
+        setValue(getRandomNumber(0, players.length - 1))
+      }, 5000)
+    }
+
+    startTimer()
+    return () => clearInterval(timer)
+  })
+
+  const getPosition = (value) => parseInt(value, 10) * 50 * -1
+
+  const getTranslateStyle = (position) => {
+    return ({
+      transform: [{ translateY: position }]
+    })
+  }
+
+  const transformStyle = getTranslateStyle(getPosition(value))
 
   return (
-    <View style={styles.slotContainer}>
-      {players.map((player) => (
-        <View key={player.id} style={styles.slot}>
-          <Text style={styles.slotLabel}>{player.username}</Text>
-        </View>
-      ))}
+    <View style={styles.container}>
+      <View style={transformStyle}>
+        {players.map((player) => (
+          <View key={player.id} style={styles.player}>
+            <Text style={styles.playerLabel}>{player.username}</Text>
+          </View>
+        ))}
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  slotContainer: {
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 10,
-    width: '60%',
-    height: 180,
-    position: 'relative'
+  container: {
+    overflow: 'hidden',
+    height: 50
   },
-  slot: {
-    width: '100%',
-    height: 60,
+  player: {
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center'
   },
-  slotLabel: {
-    fontSize: 20
+  playerLabel: {
+    color: 'white',
+    fontSize: 40
   }
 })
 
 SlotMachine.propTypes = {
   players: PropTypes.arrayOf({
-
-  })
+    id: PropTypes.number,
+    username: PropTypes.string
+  }),
+  winner: PropTypes.object
 }
 
 export default SlotMachine
