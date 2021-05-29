@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import { View, StyleSheet } from 'react-native'
 import { useForm, Controller } from 'react-hook-form'
 
-import Input from '../../atoms/inputs/Input'
-import Button from '../../atoms/buttons/Button'
+import Input from '../../../../components/inputs/Input'
+import Button from '../../../../components/buttons/Button'
 
-import { EMAIL_PATTERN } from '../../../constants'
+import { EMAIL_PATTERN } from '../../../../constants'
 
 const LoginForm = ({ onSubmit, isLoad, navigation }) => {
   const { control, handleSubmit, errors, reset } = useForm({

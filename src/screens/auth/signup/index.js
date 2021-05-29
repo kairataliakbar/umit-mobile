@@ -3,9 +3,9 @@ import { View, ScrollView, StyleSheet, Alert, KeyboardAvoidingView, Platform } f
 import PropTypes from 'prop-types'
 import axios from 'axios'
 
-import DismissKeyboard from '../../components/atoms/DismissKeyboard'
-import Container from '../../components/atoms/Container'
-import H1 from '../../components/atoms/text/H1'
+import DismissKeyboard from '../../../components/DismissKeyboard'
+import Container from '../../../components/Container'
+import H1 from '../../../components/text/H1'
 import SignupForm from './components/SignupForm'
 
 const Signup = ({ navigation }) => {

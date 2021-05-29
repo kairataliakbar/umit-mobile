@@ -2,10 +2,10 @@ import React, { useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import PropTypes from 'prop-types'
 
-import Input from '../../atoms/inputs/Input'
-import Button from '../../atoms/buttons/Button'
+import Input from '../../../../components/inputs/Input'
+import Button from '../../../../components/buttons/Button'
 
-import { EMAIL_PATTERN } from '../../../constants'
+import { EMAIL_PATTERN } from '../../../../constants'
 
 const SignupForm = ({ onSubmit, isLoad }) => {
   const { control, handleSubmit, errors, watch, setError, clearErrors, reset } = useForm()
