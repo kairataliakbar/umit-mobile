@@ -4,29 +4,29 @@ import PropTypes from 'prop-types'
 
 import SlotMachine from './SlotMachine'
 
-import Colors from '../../../theme/colors'
-
-const Drum = ({ winner, players }) => {
+const Drum = ({ winner, players, onFinish }) => {
   return (
-    <View style={styles.drumContainer}>
-      <SlotMachine
-        players={players}
-        winner={winner}
-      />
+    <View style={styles.container}>
+      <View style={styles.slotMachineWrapper}>
+        <SlotMachine
+          players={players}
+          winner={winner}
+          onFinish={onFinish}
+        />
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  drumContainer: {
+  container: {
     flex: 1,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center'
   },
-  drumText: {
-    fontSize: 18,
-    color: Colors.primary_font
+  slotMachineWrapper: {
+    width: '70%'
   }
 })
 
@@ -34,7 +34,8 @@ Drum.propTypes = {
   winner: PropTypes.shape({
     username: PropTypes.string
   }),
-  players: PropTypes.array
+  players: PropTypes.array,
+  onFinish: PropTypes.func
 }
 
 export default Drum

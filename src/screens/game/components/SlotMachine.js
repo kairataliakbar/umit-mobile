@@ -2,39 +2,56 @@ import React, { useState, useEffect, useRef } from 'react'
 import { View, Text, StyleSheet, Animated } from 'react-native'
 import PropTypes from 'prop-types'
 
+import Colors from '../../../theme/colors'
+
+const HEIGHT_SLOT = 60
+
 const getRandomNumber = (min, max) => {
   const minNum = Math.ceil(min)
   const maxNum = Math.floor(max)
   return Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum
 }
 
-const getPosition = (value) => parseInt(value, 10) * 50 * -1
+const getPosition = (value) => parseInt(value, 10) * HEIGHT_SLOT * -1
 
-const SlotMachine = ({ players, winner }) => {
+const SlotMachine = ({ players, winner, onFinish }) => {
   const [value, setValue] = useState(0)
 
   const animatingOffsets = useRef(new Animated.Value(getPosition(value))).current
 
   useEffect(() => {
     let timer
+    let endGameTimer
+
     const startTimer = () => {
       timer = setInterval(() => {
         setValue(getRandomNumber(0, players.length - 1))
-      }, 1000)
+      }, 200)
+    }
+
+    const startEndGameTimer = () => {
+      endGameTimer = setTimeout(() => {
+        setValue(players.findIndex((player) => player.id === winner.id))
+        clearInterval(timer)
+        onFinish()
+      }, 6000)
     }
 
     startTimer()
-    return () => clearInterval(timer)
-  })
+    startEndGameTimer()
+    return () => {
+      clearInterval(timer)
+      clearInterval(endGameTimer)
+    }
+  }, [])
 
   useEffect(() => {
-    console.log(animatingOffsets, 'animatingOffsets')
     Animated.timing(animatingOffsets, {
       toValue: getPosition(value),
-      duration: 1000,
+      duration: 200,
       useNativeDriver: true
     }).start()
-  }, [animatingOffsets])
+  }, [value])
 
   const getTranslateStyle = (position) => {
     return ({
@@ -60,10 +77,13 @@ const SlotMachine = ({ players, winner }) => {
 const styles = StyleSheet.create({
   container: {
     overflow: 'hidden',
-    height: 50
+    height: HEIGHT_SLOT,
+    borderWidth: 4,
+    borderColor: Colors.primary_bg,
+    borderRadius: 10
   },
   player: {
-    height: 50,
+    height: HEIGHT_SLOT,
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -75,7 +95,10 @@ const styles = StyleSheet.create({
 
 SlotMachine.propTypes = {
   players: PropTypes.array,
-  winner: PropTypes.object
+  winner: PropTypes.shape({
+    id: PropTypes.number
+  }),
+  onFinish: PropTypes.func
 }
 
 export default SlotMachine
