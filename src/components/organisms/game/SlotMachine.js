@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { View, Text, StyleSheet, Animated } from 'react-native'
 import PropTypes from 'prop-types'
 
@@ -8,22 +8,33 @@ const getRandomNumber = (min, max) => {
   return Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum
 }
 
+const getPosition = (value) => parseInt(value, 10) * 50 * -1
+
 const SlotMachine = ({ players, winner }) => {
   const [value, setValue] = useState(0)
+
+  const animatingOffsets = useRef(new Animated.Value(getPosition(value))).current
 
   useEffect(() => {
     let timer
     const startTimer = () => {
       timer = setInterval(() => {
         setValue(getRandomNumber(0, players.length - 1))
-      }, 5000)
+      }, 1000)
     }
 
     startTimer()
     return () => clearInterval(timer)
   })
 
-  const getPosition = (value) => parseInt(value, 10) * 50 * -1
+  useEffect(() => {
+    console.log(animatingOffsets, 'animatingOffsets')
+    Animated.timing(animatingOffsets, {
+      toValue: getPosition(value),
+      duration: 1000,
+      useNativeDriver: true
+    }).start()
+  }, [animatingOffsets])
 
   const getTranslateStyle = (position) => {
     return ({
@@ -31,17 +42,17 @@ const SlotMachine = ({ players, winner }) => {
     })
   }
 
-  const transformStyle = getTranslateStyle(getPosition(value))
+  const transformStyle = getTranslateStyle(animatingOffsets)
 
   return (
     <View style={styles.container}>
-      <View style={transformStyle}>
+      <Animated.View style={transformStyle}>
         {players.map((player) => (
           <View key={player.id} style={styles.player}>
             <Text style={styles.playerLabel}>{player.username}</Text>
           </View>
         ))}
-      </View>
+      </Animated.View>
     </View>
   )
 }
@@ -63,10 +74,7 @@ const styles = StyleSheet.create({
 })
 
 SlotMachine.propTypes = {
-  players: PropTypes.arrayOf({
-    id: PropTypes.number,
-    username: PropTypes.string
-  }),
+  players: PropTypes.array,
   winner: PropTypes.object
 }
 
