@@ -3,7 +3,7 @@ import { View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-nativ
 import PropTypes from 'prop-types'
 import { Ionicons } from '@expo/vector-icons'
 
-import Colors from '../../../theme/colors'
+import Colors from '../../theme/colors'
 
 const Input = ({ value, onChangeText, password, error, ...rest }) => {
   const [isFocused, setIsFocused] = useState(false)

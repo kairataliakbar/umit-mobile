@@ -2,7 +2,7 @@ import React from 'react'
 import { Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 
-import Color from '../../../theme/colors'
+import Color from '../../theme/colors'
 
 const H3 = ({ children, propStyles }) => (
   <Text style={{ ...styles.h3, ...propStyles }}>{children}</Text>

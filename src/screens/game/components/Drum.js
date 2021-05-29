@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 
-import SlotMachine from '../../organisms/game/SlotMachine'
+import SlotMachine from './SlotMachine'
 
 import Colors from '../../../theme/colors'
 

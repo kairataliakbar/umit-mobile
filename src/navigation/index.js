@@ -10,7 +10,7 @@ import Signup from '../screens/auth/signup'
 import Home from '../screens/home'
 import Game from '../screens/game'
 
-import CustomHeaderButton from '../components/atoms/buttons/CustomHeaderButton'
+import CustomHeaderButton from '../components/buttons/CustomHeaderButton'
 import Colors from '../theme/colors'
 import AuthContext from '../theme/AuthContext'
 

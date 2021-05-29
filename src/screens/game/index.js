@@ -5,14 +5,15 @@ import { Alert, StyleSheet } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import axios from 'axios'
 
-import Container from '../../components/atoms/Container'
-import CustomHeaderButton from '../../components/atoms/buttons/CustomHeaderButton'
-import Info from '../../components/templates/game/Info'
-import Wait from '../../components/templates/game/Wait'
-import Drum from '../../components/templates/game/Drum'
-import Timer from '../../components/templates/game/Timer'
+import Container from '../../components/Container'
+import CustomHeaderButton from '../../components/buttons/CustomHeaderButton'
+import Info from './components/Info'
+import Wait from './components/Wait'
+import Drum from './components/Drum'
+import Timer from './components/Timer'
 
 import AuthContext from '../../theme/AuthContext'
+import PLAYERS from '../../constants/players'
 
 const Game = ({ navigation, route }) => {
   const { bet, sessionId } = route.params
@@ -24,13 +25,13 @@ const Game = ({ navigation, route }) => {
 
   let timer
 
-  useEffect(() => {
-    fetchTimer()
+  // useEffect(() => {
+  //   fetchTimer()
 
-    return () => {
-      clearTimeout(timer)
-    }
-  })
+  //   return () => {
+  //     clearTimeout(timer)
+  //   }
+  // })
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -63,50 +64,50 @@ const Game = ({ navigation, route }) => {
     })
   }, [navigation, winner, startTime])
 
-  const getPlayers = async () => {
-    try {
-      const res = await axios.get('/user-room.php', { params: { room_id: bet.id } })
-      setPlayers(res.data.message.users)
-    } catch (err) {
-      Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
-    }
-  }
+  // const getPlayers = async () => {
+  //   try {
+  //     const res = await axios.get('/user-room.php', { params: { room_id: bet.id } })
+  //     setPlayers(res.data.message.users)
+  //   } catch (err) {
+  //     Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
+  //   }
+  // }
 
-  const getStartTime = async () => {
-    try {
-      const res = await axios.post('/winner.php', { session_id: sessionId })
-      setStartTime(res.data.message.game_session.start_time)
-    } catch (err) {
-      Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
-    }
-  }
+  // const getStartTime = async () => {
+  //   try {
+  //     const res = await axios.post('/winner.php', { session_id: sessionId })
+  //     setStartTime(res.data.message.game_session.start_time)
+  //   } catch (err) {
+  //     Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
+  //   }
+  // }
 
-  const getWinner = async () => {
-    try {
-      const res = await axios.post('/winner.php', { session_id: sessionId })
-      setWinner(res.data.message.game_session.winner_user_id)
-    } catch (err) {
-      Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
-    }
-  }
+  // const getWinner = async () => {
+  //   try {
+  //     const res = await axios.post('/winner.php', { session_id: sessionId })
+  //     setWinner(res.data.message.game_session.winner_user_id)
+  //   } catch (err) {
+  //     Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
+  //   }
+  // }
 
-  const onStartPrevGame = () => {
-    getPlayers()
-    if (!startTime && players.length >= 3) getStartTime()
-    if (!winner) {
-      clearTimeout(timer)
-      fetchTimer()
-    }
-  }
+  // const onStartPrevGame = () => {
+  //   getPlayers()
+  //   if (!startTime && players.length >= 3) getStartTime()
+  //   if (!winner) {
+  //     clearTimeout(timer)
+  //     fetchTimer()
+  //   }
+  // }
 
-  const fetchTimer = () => {
-    timer = setTimeout(onStartPrevGame, 3000)
-  }
+  // const fetchTimer = () => {
+  //   timer = setTimeout(onStartPrevGame, 3000)
+  // }
 
-  const onStartGame = () => {
-    clearTimeout(timer)
-    getWinner()
-  }
+  // const onStartGame = () => {
+  //   clearTimeout(timer)
+  //   getWinner()
+  // }
 
   const onLogoutRoom = async () => {
     try {
@@ -121,25 +122,28 @@ const Game = ({ navigation, route }) => {
     }
   }
 
-  const renderGame = useMemo(() => {
-    if (startTime && winner) {
-      return (
-        <Drum
-          winner={players.find((player) => player.id === winner)}
-          players={players}
-        />
-      )
-    } else if (startTime && players.length >= 3) {
-      return <Timer end={startTime} onEndTimer={onStartGame} />
-    } else {
-      return <Wait />
-    }
-  }, [players, startTime, winner])
+  // const renderGame = useMemo(() => {
+  //   if (startTime && winner) {
+  //     return (
+  //       <Drum
+  //         winner={players.find((player) => player.id === winner)}
+  //         players={players}
+  //       />
+  //     )
+  //   } else if (startTime && players.length >= 3) {
+  //     return <Timer end={startTime} onEndTimer={onStartGame} />
+  //   } else {
+  //     return <Wait />
+  //   }
+  // }, [players, startTime, winner])
 
   return (
     <Container customStyle={styles.screen}>
       <Info bet={bet.bet} countPlayers={players.length} />
-      {renderGame}
+      <Drum
+        winner={PLAYERS[1]}
+        players={PLAYERS}
+      />
     </Container>
   )
 }

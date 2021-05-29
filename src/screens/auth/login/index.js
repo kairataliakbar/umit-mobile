@@ -3,13 +3,13 @@ import { View, StyleSheet, Alert, KeyboardAvoidingView, Platform } from 'react-n
 import PropTypes from 'prop-types'
 import axios from 'axios'
 
-import DismissKeyboard from '../../components/atoms/DismissKeyboard'
-import Container from '../../components/atoms/Container'
-import H1 from '../../components/atoms/text/H1'
-import LoginForm from '../../components/organisms/forms/LoginForm'
+import DismissKeyboard from '../../../components/DismissKeyboard'
+import Container from '../../../components/atoms/Container'
+import H1 from '../../../components/atoms/text/H1'
+import LoginForm from './components/LoginForm'
 
-import Colors from '../../theme/colors'
-import AuthContext from '../../theme/AuthContext'
+import Colors from '../../../theme/colors'
+import AuthContext from '../../../theme/AuthContext'
 
 const Login = ({ navigation, route }) => {
   const { onLogin } = useContext(AuthContext)

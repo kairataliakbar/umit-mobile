@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 
-import Colors from '../../theme/colors'
+import Colors from '../theme/colors'
 
 const Container = ({ children, customStyle, ...rest }) => {
   return (

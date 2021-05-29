@@ -3,9 +3,9 @@ import { ActivityIndicator, StyleSheet, View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 
-import Container from '../../components/atoms/Container'
-import H1 from '../../components/atoms/text/H3'
-import Bet from '../../components/atoms/bet'
+import Container from '../../components/Container'
+import H1 from '../../components/text/H3'
+import Bet from '../../components/bet'
 
 import Colors from '../../theme/colors'
 import AuthContext from '../../theme/AuthContext'

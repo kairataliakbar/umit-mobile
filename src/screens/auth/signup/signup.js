@@ -6,7 +6,7 @@ import axios from 'axios'
 import DismissKeyboard from '../../components/atoms/DismissKeyboard'
 import Container from '../../components/atoms/Container'
 import H1 from '../../components/atoms/text/H1'
-import SignupForm from '../../components/organisms/forms/SignupForm'
+import SignupForm from './components/SignupForm'
 
 const Signup = ({ navigation }) => {
   const [isLoad, setIsLoad] = useState(false)

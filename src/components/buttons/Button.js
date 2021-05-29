@@ -2,7 +2,7 @@ import React from 'react'
 import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from 'react-native'
 import PropTypes from 'prop-types'
 
-import Colors from '../../../theme/colors'
+import Colors from '../../theme/colors'
 
 const Button = ({ label, children, onPress, load, type = 'default' }) => {
   return type === 'link'
