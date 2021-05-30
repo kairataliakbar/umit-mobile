@@ -18,17 +18,17 @@ const Game = ({ navigation, route }) => {
   const { bet, sessionId } = route.params
   const { userId } = useContext(AuthContext)
 
-  const [players, setPlayers] = useState(0)
+  const [players, setPlayers] = useState([])
   const [startTime, setStartTime] = useState(null)
   const [winner, setWinner] = useState(null)
 
   let timer
 
   useEffect(() => {
-    fetchTimer()
+    onStartTimer()
 
     return () => {
-      clearTimeout(timer)
+      clearInterval(timer)
     }
   })
 
@@ -36,7 +36,7 @@ const Game = ({ navigation, route }) => {
     navigation.setOptions({
       headerLeft: () => {},
       headerRight: () => {
-        if (startTime && !winner) return
+        if (startTime) return
         return (
           <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item
@@ -61,7 +61,7 @@ const Game = ({ navigation, route }) => {
         )
       }
     })
-  }, [navigation, winner, startTime])
+  }, [navigation, startTime])
 
   const getPlayers = async () => {
     try {
@@ -90,21 +90,18 @@ const Game = ({ navigation, route }) => {
     }
   }
 
-  const onStartPrevGame = () => {
-    getPlayers()
-    if (!startTime && players.length >= 3) getStartTime()
-    if (!winner) {
-      clearTimeout(timer)
-      fetchTimer()
-    }
-  }
-
-  const fetchTimer = () => {
-    timer = setTimeout(onStartPrevGame, 3000)
+  const onStartTimer = () => {
+    timer = setInterval(async () => {
+      await getPlayers()
+      if (!startTime && players.length >= 3) await getStartTime()
+      if (winner) {
+        clearInterval(timer)
+      }
+    }, 3000)
   }
 
   const onStartGame = () => {
-    clearTimeout(timer)
+    clearInterval(timer)
     getWinner()
   }
 
@@ -130,7 +127,7 @@ const Game = ({ navigation, route }) => {
   }
 
   const renderGame = useMemo(() => {
-    if (startTime && winner) {
+    if (winner) {
       return (
         <Drum
           winner={players.find((player) => player.id === winner)}
@@ -148,7 +145,7 @@ const Game = ({ navigation, route }) => {
   return (
     <Container customStyle={styles.screen}>
       <Info bet={bet.bet} countPlayers={players.length} />
-      {renderGame()}
+      {renderGame}
     </Container>
   )
 }
