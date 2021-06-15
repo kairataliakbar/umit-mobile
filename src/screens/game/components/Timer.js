@@ -7,6 +7,7 @@ import Colors from '../../../theme/colors'
 
 const Timer = ({ end, onEndTimer }) => {
   const [timer, setTimer] = useState()
+  const [isTimerEnded, setIsTimerEnded] = useState(false)
   let interval
 
   useEffect(() => {
@@ -27,15 +28,20 @@ const Timer = ({ end, onEndTimer }) => {
 
     if (seconds <= 0) {
       clearInterval(interval)
-      setTimer('Игра началась')
+      setTimer('')
+      setIsTimerEnded(true)
       onEndTimer()
     }
   }
 
   return (
     <View style={styles.timerContainer}>
-      <Text style={styles.timerLabel}>Игра начнется через</Text>
-      <Text style={styles.timerLabel}>{timer}</Text>
+      {isTimerEnded ? <Text style={styles.timerLabel}>Игра начинается</Text> : (
+        <>
+          <Text style={styles.timerLabel}>Игра начнется через</Text>
+          <Text style={styles.timerLabel}>{timer}</Text>
+        </>
+      )}
     </View>
   )
 }
