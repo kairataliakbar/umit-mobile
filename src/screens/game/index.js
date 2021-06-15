@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { useState, useEffect, useContext, useMemo, useLayoutEffect } from 'react'
+import React, { useState, useContext, useMemo, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Alert, StyleSheet } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -13,6 +13,7 @@ import Drum from './components/Drum'
 import Timer from './components/Timer'
 
 import AuthContext from '../../theme/AuthContext'
+import useInterval from '../../theme/useInterval'
 
 const Game = ({ navigation, route }) => {
   const { bet, sessionId } = route.params
@@ -22,23 +23,12 @@ const Game = ({ navigation, route }) => {
   const [startTime, setStartTime] = useState(null)
   const [winnerId, setWinnerId] = useState(null)
 
-  let timer
-
-  useEffect(() => {
-    const onStartTimer = () => {
-      timer = setInterval(async () => {
-        getPlayers()
-        if (!startTime && players.length >= 3) getStartTime()
-        if (winnerId) clearInterval(timer)
-      }, 3000)
+  useInterval(() => {
+    if (!winnerId) {
+      getPlayers()
+      if (!startTime && players.length >= 3) getStartTime()
     }
-
-    onStartTimer()
-
-    return () => {
-      clearInterval(timer)
-    }
-  }, [])
+  }, 3000)
 
   useLayoutEffect(() => {
     navigation.setOptions({
