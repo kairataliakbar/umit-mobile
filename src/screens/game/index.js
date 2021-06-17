@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { useState, useContext, useMemo, useLayoutEffect } from 'react'
+import React, { useState, useEffect, useContext, useMemo, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Alert, StyleSheet } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -22,6 +22,20 @@ const Game = ({ navigation, route }) => {
   const [players, setPlayers] = useState([])
   const [startTime, setStartTime] = useState(null)
   const [winnerId, setWinnerId] = useState(null)
+
+  useEffect(() => {
+    const onDisabledNavBack = (e) => {
+      if (!startTime) {
+        return
+      }
+      e.preventDefault()
+    }
+    navigation.addListener('beforeRemove', onDisabledNavBack)
+
+    return () => {
+      navigation.removeListener(('beforeRemove', onDisabledNavBack))
+    }
+  }, [navigation, startTime])
 
   useInterval(() => {
     if (!winnerId) {
@@ -85,7 +99,11 @@ const Game = ({ navigation, route }) => {
   const getWinner = async () => {
     try {
       const res = await axios.post('/winner.php', { session_id: sessionId }, { headers: { 'Cache-Control':'no-cache' } })
-      setWinnerId(res.data.message.game_session.winner_user_id)
+      if (!res.data.message.game_session.winner_user_id) {
+        setTimeout(() => getWinner(), 30000)
+      } else {
+        setWinnerId(res.data.message.game_session.winner_user_id)
+      }
     } catch (err) {
       Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
     }
@@ -157,7 +175,9 @@ Game.propTypes = {
   }),
   navigation: PropTypes.shape({
     setOptions: PropTypes.func,
-    navigate: PropTypes.func
+    navigate: PropTypes.func,
+    addListener: PropTypes.func,
+    removeListener: PropTypes.func
   })
 }
 

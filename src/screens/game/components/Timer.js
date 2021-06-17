@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 
@@ -36,7 +36,14 @@ const Timer = ({ end, onEndTimer }) => {
 
   return (
     <View style={styles.timerContainer}>
-      {isTimerEnded ? <Text style={styles.timerLabel}>Игра начинается</Text> : (
+      {isTimerEnded ? (
+        <>
+          <Text style={{ ...styles.timerLabel, marginBottom: 30 }}>
+            Игра начинается
+          </Text>
+          <ActivityIndicator size="large" color={Colors.primary_font} />
+        </>
+      ) : (
         <>
           <Text style={styles.timerLabel}>Игра начнется через</Text>
           <Text style={styles.timerLabel}>{timer}</Text>
