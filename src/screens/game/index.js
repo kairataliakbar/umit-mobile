@@ -22,23 +22,19 @@ const Game = ({ navigation, route }) => {
   const [players, setPlayers] = useState([])
   const [startTime, setStartTime] = useState(null)
   const [winnerId, setWinnerId] = useState(null)
+  const [isGameStarted, setIsGameStarted] = useState(false)
+  const [isGameEnded, setIsGameEnded] = useState(false)
 
   useEffect(() => {
-    const onDisabledNavBack = (e) => {
-      if (!startTime) {
-        return
-      }
-      e.preventDefault()
-    }
-    navigation.addListener('beforeRemove', onDisabledNavBack)
+    navigation.addListener('beforeRemove', (e) => {
+      if (!startTime || isGameEnded) return
 
-    return () => {
-      navigation.removeListener(('beforeRemove', onDisabledNavBack))
-    }
-  }, [navigation, startTime])
+      e.preventDefault()
+    })
+  }, [navigation, startTime, isGameEnded])
 
   useInterval(() => {
-    if (!winnerId) {
+    if (!isGameStarted) {
       getPlayers()
       if (!startTime && players.length >= 3) getStartTime()
     }
@@ -78,8 +74,7 @@ const Game = ({ navigation, route }) => {
   const getPlayers = async () => {
     try {
       const res = await axios.get('/user-room.php', {
-        params: { room_id: bet.id },
-        headers: { 'Cache-Control':'no-cache' }
+        params: { room_id: bet.id }
       })
       setPlayers(res.data.message.users)
     } catch (err) {
@@ -89,7 +84,7 @@ const Game = ({ navigation, route }) => {
 
   const getStartTime = async () => {
     try {
-      const res = await axios.post('/winner.php', { session_id: sessionId }, { headers: { 'Cache-Control':'no-cache' } })
+      const res = await axios.post('/winner.php', { session_id: sessionId })
       setStartTime(res.data.message.game_session.start_time)
     } catch (err) {
       Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
@@ -98,9 +93,9 @@ const Game = ({ navigation, route }) => {
 
   const getWinner = async () => {
     try {
-      const res = await axios.post('/winner.php', { session_id: sessionId }, { headers: { 'Cache-Control':'no-cache' } })
+      const res = await axios.post('/winner.php', { session_id: sessionId })
       if (!res.data.message.game_session.winner_user_id) {
-        setTimeout(() => getWinner(), 30000)
+        setTimeout(() => getWinner(), 5000)
       } else {
         setWinnerId(res.data.message.game_session.winner_user_id)
       }
@@ -122,7 +117,13 @@ const Game = ({ navigation, route }) => {
     }
   }
 
+  const onTimerEnd = () => {
+    setIsGameStarted(true)
+    getWinner()
+  }
+
   const onGameEnd = () => {
+    setIsGameEnded(true)
     setTimeout(() => {
       if (userId === winnerId) {
         Alert.alert('Вы выиграли!', '', [{ text: 'Окей', onPress: () => onLogoutRoom() }])
@@ -142,7 +143,7 @@ const Game = ({ navigation, route }) => {
         />
       )
     } else if (startTime && players.length >= 3) {
-      return <Timer end={startTime} onEndTimer={getWinner} />
+      return <Timer end={startTime} onEndTimer={onTimerEnd} />
     } else {
       return <Wait />
     }

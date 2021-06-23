@@ -10,6 +10,7 @@ import AuthContext from './src/theme/AuthContext'
 
 axios.defaults.baseURL = 'http://kzbusinesstries.site'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.headers.get['Cache-Control'] = 'no-cache'
 axios.interceptors.request.use(
   async (config) => {
     if (!config.headers.Authorization) {
