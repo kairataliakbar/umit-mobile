@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   h3: {
     fontSize: 28,
     fontWeight: '500',
-    color: Color.primary_font
+    color: Color.gold
   }
 })
 

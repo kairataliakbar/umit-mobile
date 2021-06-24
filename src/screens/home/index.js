@@ -50,7 +50,7 @@ const Home = ({ navigation }) => {
 
   return (
     <Container customStyle={styles.screen}>
-      {isLoading ? <ActivityIndicator size="large" color={Colors.primary_font} /> : (
+      {isLoading ? <ActivityIndicator size="large" color={Colors.gold} /> : (
         <>
           <H1 propStyles={styles.title}>Выберите ставку</H1>
           <View style={styles.bets}>
@@ -58,6 +58,7 @@ const Home = ({ navigation }) => {
               <Bet
                 key={bet.id}
                 bet={bet.bet}
+                type={bet.name === 'daily' ? 'primary' : ''}
                 onPress={() => handleClickBet(bet)}
                 customStyle={styles.bet}
               />

@@ -22,9 +22,9 @@ const AppNavigation = ({ token }) => {
   const navigationOptions = {
     headerTitle: '',
     headerBackTitle: 'Назад',
-    headerTintColor: Colors.third_font,
+    headerTintColor: Colors.white,
     headerStyle: {
-      backgroundColor: Colors.secondary_bg,
+      backgroundColor: Colors.black,
       shadowRadius: 0,
       shadowOffset: {
         height: 0
@@ -60,7 +60,10 @@ const AppNavigation = ({ token }) => {
             <Stack.Screen
               name="Game"
               component={Game}
-              options={navigationOptions}
+              options={{
+                ...navigationOptions,
+                ...{ gestureEnabled: false }
+              }}
             />
           </>
         ) : (

@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   alertLabel: {
     marginLeft: 10,
-    color: Colors.third_font,
+    color: Colors.white,
     fontSize: 16
   }
 })

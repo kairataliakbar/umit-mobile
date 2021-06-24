@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
-    color: Colors.third_font
+    color: Colors.white
   }
 })
 

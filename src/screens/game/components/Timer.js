@@ -41,7 +41,7 @@ const Timer = ({ end, onEndTimer }) => {
           <Text style={{ ...styles.timerLabel, marginBottom: 30 }}>
             Игра начинается
           </Text>
-          <ActivityIndicator size="large" color={Colors.primary_font} />
+          <ActivityIndicator size="large" color={Colors.gold} />
         </>
       ) : (
         <>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   timerLabel: {
-    color: Colors.primary_font,
+    color: Colors.gold,
     fontSize: 20,
     marginVertical: 5
   }

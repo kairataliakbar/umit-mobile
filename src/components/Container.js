@@ -15,7 +15,7 @@ const Container = ({ children, customStyle, ...rest }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.secondary_bg
+    backgroundColor: Colors.black
   }
 })
 

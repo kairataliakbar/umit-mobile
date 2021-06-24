@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import Colors from '../../theme/colors'
 
 const CustomHeaderButton = (props) => {
-  const { color = Colors.third_font, size = 24, ...rest } = props
+  const { color = Colors.white, size = 24, ...rest } = props
   return (
     <HeaderButton
       IconComponent={Ionicons}

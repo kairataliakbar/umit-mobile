@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import React, { useState, useEffect, useContext, useMemo, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Alert, StyleSheet } from 'react-native'
+import { Alert, StyleSheet, BackHandler } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import axios from 'axios'
 
@@ -23,15 +23,18 @@ const Game = ({ navigation, route }) => {
   const [startTime, setStartTime] = useState(null)
   const [winnerId, setWinnerId] = useState(null)
   const [isGameStarted, setIsGameStarted] = useState(false)
-  const [isGameEnded, setIsGameEnded] = useState(false)
 
   useEffect(() => {
-    navigation.addListener('beforeRemove', (e) => {
-      if (!startTime || isGameEnded) return
+    const onClickBackButton = () => {
+      return true
+    }
 
-      e.preventDefault()
-    })
-  }, [navigation, startTime, isGameEnded])
+    BackHandler.addEventListener('hardwareBackPress', onClickBackButton)
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', onClickBackButton)
+    }
+  }, [])
 
   useInterval(() => {
     if (!isGameStarted) {
@@ -123,7 +126,6 @@ const Game = ({ navigation, route }) => {
   }
 
   const onGameEnd = () => {
-    setIsGameEnded(true)
     setTimeout(() => {
       if (userId === winnerId) {
         Alert.alert('Вы выиграли!', '', [{ text: 'Окей', onPress: () => onLogoutRoom() }])

@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     height: HEIGHT_SLOT,
     borderWidth: 4,
-    borderColor: Colors.primary_bg,
+    borderColor: Colors.gold,
     borderRadius: 10
   },
   player: {

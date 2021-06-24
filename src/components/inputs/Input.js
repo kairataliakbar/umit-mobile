@@ -28,15 +28,15 @@ const Input = ({ value, onChangeText, password, error, ...rest }) => {
         {password && (
           <TouchableOpacity onPress={toggleShowPassword}>
             {isShowPassword ? (
-              <Ionicons name="eye" size={24} color={Colors.secondary_font} />
+              <Ionicons name="eye" size={24} color={Colors.black} />
             ) : (
-              <Ionicons name="eye-off" size={24} color={Colors.secondary_font} />
+              <Ionicons name="eye-off" size={24} color={Colors.black} />
             )}
           </TouchableOpacity>
         )}
         {!!value && (
           <TouchableOpacity style={styles.inputAction} onPress={clearInput}>
-            <Ionicons name="close-circle" size={22} color={Colors.secondary_font} />
+            <Ionicons name="close-circle" size={22} color={Colors.black} />
           </TouchableOpacity>
         )}
       </View>
@@ -57,18 +57,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 12,
-    backgroundColor: Colors.third_bg,
+    backgroundColor: Colors.white,
     borderWidth: 2,
     borderRadius: 3,
-    borderColor: Colors.third_font
+    borderColor: Colors.white
   },
   textInput: {
     flex: 1,
-    color: Colors.secondary_font,
+    color: Colors.black,
     fontSize: 20
   },
   inputFocused: {
-    borderColor: Colors.primary_font
+    borderColor: Colors.gold
   },
   inputAction: {
     marginLeft: 10

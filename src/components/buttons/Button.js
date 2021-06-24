@@ -13,7 +13,7 @@ const Button = ({ label, children, onPress, load, type = 'default' }) => {
     ) : (
       <TouchableOpacity style={styles.button} onPress={onPress}>
         {load
-          ? <ActivityIndicator size="small" color={Colors.third_font} />
+          ? <ActivityIndicator size="small" color={Colors.white} />
           : <Text style={styles.label}>{label || children}</Text>}
       </TouchableOpacity>
     )
@@ -26,10 +26,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
     marginBottom: 30,
-    backgroundColor: Colors.secondary_bg,
+    backgroundColor: Colors.black,
     borderWidth: 2,
     borderRadius: 3,
-    borderColor: Colors.third_bg,
+    borderColor: Colors.white,
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 20,
-    color: Colors.third_font
+    color: Colors.white
   },
   linkLabel: {
     textDecorationLine: 'underline'

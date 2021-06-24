@@ -69,7 +69,7 @@ export default function App() {
     >
       <View style={[styles.container, isLoading && styles.center]}>
         {isLoading
-          ? <ActivityIndicator size="large" color={Colors.third_font} />
+          ? <ActivityIndicator size="large" color={Colors.white} />
           : <AppNavigation token={token} />}
         <StatusBar style="auto" barStyle="light-content" />
       </View>
@@ -80,7 +80,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.secondary_bg
+    backgroundColor: Colors.black
   },
   center: {
     alignItems: 'center',

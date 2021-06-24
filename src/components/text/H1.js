@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: 40,
     fontWeight: '500',
-    color: Color.third_font
+    color: Color.white
   }
 })
 

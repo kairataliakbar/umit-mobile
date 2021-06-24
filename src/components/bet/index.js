@@ -6,14 +6,20 @@ import { FontAwesome5 } from '@expo/vector-icons'
 
 import Colors from '../../theme/colors'
 
-const Bet = ({ onPress, bet, customStyle }) => {
+const Bet = ({ onPress, bet, customStyle, type }) => {
   return (
     <TouchableOpacity
-      style={{ ...styles.bet, ...customStyle }}
+      style={[styles.bet, customStyle, type === 'primary' && styles.betPrimary]}
       onPress={onPress}
     >
-      <Text style={styles.label}>{bet}</Text>
-      <FontAwesome5 name="tenge" size={24} color={Colors.primary_font} />
+      <Text style={[styles.label, type === 'primary' && styles.labelPrimary]}>
+        {bet}
+      </Text>
+      <FontAwesome5
+        name="tenge"
+        size={24}
+        color={type === 'primary' ? Colors.black : Colors.gold}
+      />
     </TouchableOpacity>
   )
 }
@@ -24,23 +30,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.secondary_bg,
+    backgroundColor: Colors.black,
     borderWidth: 1,
     borderRadius: 4,
-    borderColor: Colors.primary_bg
+    borderColor: Colors.gold
   },
   label: {
     fontSize: 24,
     fontWeight: '500',
-    color: Colors.primary_font,
+    color: Colors.gold,
     marginRight: 5
+  },
+  betPrimary: {
+    backgroundColor: Colors.gold
+  },
+  labelPrimary: {
+    color: Colors.black
   }
 })
 
 Bet.propTypes = {
   onPress: PropTypes.func.isRequired,
   bet: PropTypes.string,
-  customStyle: PropTypes.object
+  customStyle: PropTypes.object,
+  type: PropTypes.string
 }
 
 export default Bet

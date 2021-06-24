@@ -10,7 +10,7 @@ const Wait = () => {
   return (
     <Container customStyle={styles.screen}>
       <H3 propStyles={styles.title}>Ожидание других игроков</H3>
-      <ActivityIndicator size="large" color={Colors.primary_font} />
+      <ActivityIndicator size="large" color={Colors.gold} />
     </Container>
   )
 }
