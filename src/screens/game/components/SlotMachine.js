@@ -26,7 +26,7 @@ const SlotMachine = ({ players, winner, onFinish }) => {
     const startTimer = () => {
       timer = setInterval(() => {
         setValue(getRandomNumber(0, players.length - 1))
-      }, 120)
+      }, 110)
     }
 
     const startEndGameTimer = () => {
@@ -48,7 +48,7 @@ const SlotMachine = ({ players, winner, onFinish }) => {
   useEffect(() => {
     Animated.timing(animatingOffsets, {
       toValue: getPosition(value),
-      duration: 120,
+      duration: 110,
       useNativeDriver: true
     }).start()
   }, [value])

@@ -9,12 +9,7 @@ import Button from '../../../../components/buttons/Button'
 import { EMAIL_PATTERN } from '../../../../constants'
 
 const LoginForm = ({ onSubmit, isLoad, navigation }) => {
-  const { control, handleSubmit, errors, reset } = useForm({
-    defaultValues: {
-      email: 'aliakbar.kairat@gmail.com',
-      password: 'password'
-    }
-  })
+  const { control, handleSubmit, errors, reset } = useForm()
 
   const validEmail = (error) => {
     if (error) {
