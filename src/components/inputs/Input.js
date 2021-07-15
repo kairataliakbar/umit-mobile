@@ -1,27 +1,48 @@
-import React, { useState } from 'react'
-import { View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import React, { useState, useRef } from 'react'
+import { Animated, View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Ionicons } from '@expo/vector-icons'
 
 import Colors from '../../theme/colors'
 
 const Input = ({ value, onChangeText, password, error, ...rest }) => {
-  const [isFocused, setIsFocused] = useState(false)
   const [isShowPassword, setIsShowPassword] = useState(false)
+  const animation = useRef(new Animated.Value(0)).current
 
   const toggleShowPassword = () => setIsShowPassword(!isShowPassword)
 
   const clearInput = () => onChangeText('')
 
+  const onFocusAnimation = () => {
+    Animated.timing(animation, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: false
+    }).start()
+  }
+
+  const onBlurAnimation = () => {
+    Animated.timing(animation, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: false
+    }).start()
+  }
+
+  const inputInterpolation =  animation.interpolate({
+    inputRange: [0, 1],
+    outputRange:[Colors.white , Colors.gold]
+  })
+
   return (
     <View style={styles.inputContainer}>
-      <View style={[styles.input, isFocused && styles.inputFocused]}>
+      <Animated.View style={[styles.input, { borderColor: error ? Colors.error : inputInterpolation }]}>
         <TextInput
           value={value}
           style={styles.textInput}
           secureTextEntry={password && !isShowPassword}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+          onFocus={() => onFocusAnimation()}
+          onBlur={() => onBlurAnimation()}
           onChangeText={onChangeText}
           {...rest}
         />
@@ -39,7 +60,7 @@ const Input = ({ value, onChangeText, password, error, ...rest }) => {
             <Ionicons name="close-circle" size={22} color={Colors.black} />
           </TouchableOpacity>
         )}
-      </View>
+      </Animated.View>
       {error && <Text style={styles.error}>{error}</Text>}
     </View>
   )
@@ -58,7 +79,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
     backgroundColor: Colors.white,
-    borderWidth: 2,
+    borderWidth: 3,
     borderRadius: 3,
     borderColor: Colors.white
   },
@@ -66,9 +87,6 @@ const styles = StyleSheet.create({
     flex: 1,
     color: Colors.black,
     fontSize: 20
-  },
-  inputFocused: {
-    borderColor: Colors.gold
   },
   inputAction: {
     marginLeft: 10
