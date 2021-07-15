@@ -17,7 +17,14 @@ const Signup = ({ navigation }) => {
     try {
       await axios.post('/register.php', data)
       setIsLoad(false)
-      navigation.navigate('Login', { afterSignup: true })
+      Alert.alert(
+        'Внимание',
+        'После регистрации, перед входом, обязательно нужно подтвердить почту',
+        [{
+          text: 'Хорошо',
+          onPress: () => navigation.navigate('Login')
+        }]
+      )
     } catch (err) {
       setIsLoad(false)
       Alert.alert('Ошибка', err.message, [{ text: 'Окей' }])
@@ -27,18 +34,18 @@ const Signup = ({ navigation }) => {
   const Wrapper = Platform.OS === 'android' ? View : KeyboardAvoidingView
 
   return (
-    <Wrapper style={styles.wrapper} behavior="padding" keyboardVerticalOffset={140}>
-      <DismissKeyboard>
-        <Container>
+    <Container>
+      <Wrapper style={styles.wrapper} behavior="padding" keyboardVerticalOffset={140}>
+        <DismissKeyboard>
           <ScrollView contentContainerStyle={styles.screen}>
             <H1 propStyles={styles.title}>Регистрация</H1>
             <View style={styles.form}>
               <SignupForm onSubmit={handleSubmit} isLoad={isLoad} />
             </View>
           </ScrollView>
-        </Container>
-      </DismissKeyboard>
-    </Wrapper>
+        </DismissKeyboard>
+      </Wrapper>
+    </Container>
   )
 }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { View, StyleSheet, Alert, KeyboardAvoidingView, Platform } from 'react-native'
 import PropTypes from 'prop-types'
 import axios from 'axios'
@@ -11,20 +11,10 @@ import LoginForm from './components/LoginForm'
 import Colors from '../../../theme/colors'
 import AuthContext from '../../../theme/AuthContext'
 
-const Login = ({ navigation, route }) => {
+const Login = ({ navigation }) => {
   const { onLogin } = useContext(AuthContext)
 
   const [isLoad, setIsLoad] = useState(false)
-
-  useEffect(() => {
-    if (route?.params?.afterSignup) {
-      Alert.alert(
-        'Внимание',
-        'После регистрации, перед входом, обязательно нужно подтвердить почту',
-        [{ text: 'Хорошо' }]
-      )
-    }
-  })
 
   const handleSubmit = async (data) => {
     setIsLoad(true)
@@ -90,11 +80,6 @@ const styles = StyleSheet.create({
 
 Login.propTypes = {
   navigation: PropTypes.object,
-  route: PropTypes.shape({
-    params: PropTypes.shape({
-      afterSignup: PropTypes.bool
-    })
-  })
 }
 
 export default Login
